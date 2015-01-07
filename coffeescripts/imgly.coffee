@@ -6,7 +6,6 @@ $              = require "jquery"
 PhotoProcessor = require "./photoprocessor.coffee"
 UI             = require "./ui/ui.coffee"
 Utils          = require "./utils.coffee"
-
 window.after = (t, f) -> setTimeout f, t
 window.every = (t, f) -> setInterval f, t
 
@@ -38,7 +37,7 @@ class ImglyKit
     # Set everything up
     @photoProcessor = new PhotoProcessor this
     @ui             = new UI this
-
+    
   ###
     @returns {Boolean} Whether Canvas and Canvastext is supported or not
   ###
@@ -175,3 +174,4 @@ class ImglyKit
       callback null, canvas.toDataURL(format)
 
 window.ImglyKit = ImglyKit
+
