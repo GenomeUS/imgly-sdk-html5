@@ -2,7 +2,7 @@
   +clearfix()
   white-space: nowrap
   overflow-x: auto
-  height: 80px
+  height: 60px
 
   @import "scrollbars"
 
@@ -20,14 +20,12 @@
   .#{$prefix}controls-item
     width: $controlsHeight
 
-    border-right: 1px solid #363636
+    border-right: 1px solid #ececec
     &:last-child
       border: none
-
+    
     background-repeat: no-repeat
     background-position: center center
 
     cursor: pointer
 
-    &:hover
-      +box-shadow(0 -2px 0 0 #9FBDFF inset)

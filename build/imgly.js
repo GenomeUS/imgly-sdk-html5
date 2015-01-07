@@ -260,7 +260,7 @@ window.ImglyKit = ImglyKit;
 
 
 
-},{"./photoprocessor.coffee":57,"./ui/controls/crop.coffee":65,"./ui/ui.coffee":74,"./utils.coffee":75,"jquery":"jquery"}],2:[function(require,module,exports){
+},{"./photoprocessor.coffee":52,"./ui/controls/crop.coffee":60,"./ui/ui.coffee":66,"./utils.coffee":67,"jquery":"jquery"}],2:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -581,7 +581,7 @@ module.exports = BrightnessOperation;
 
 
 
-},{"./filters/filter.coffee":15,"./filters/primitives/brightness.coffee":33}],5:[function(require,module,exports){
+},{"./filters/filter.coffee":14,"./filters/primitives/brightness.coffee":32}],5:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -639,7 +639,7 @@ module.exports = ContrastOperation;
 
 
 
-},{"./filters/filter.coffee":15,"./filters/primitives/contrast.coffee":34}],6:[function(require,module,exports){
+},{"./filters/filter.coffee":14,"./filters/primitives/contrast.coffee":33}],6:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -750,87 +750,7 @@ module.exports = CropOperation;
 
 
 
-},{"../math/vector2.coffee":3,"../utils.coffee":75,"./operation.coffee":53}],7:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-var DrawImageOperation, Operation, Queue, Rect, Utils, Vector2,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-Operation = require("./operation.coffee");
-
-Utils = require("../utils.coffee");
-
-Queue = require("../vendor/queue.coffee");
-
-Vector2 = require("../math/vector2.coffee");
-
-Rect = require("../math/rect.coffee");
-
-module.exports = DrawImageOperation = (function(_super) {
-  __extends(DrawImageOperation, _super);
-
-  function DrawImageOperation(app, options) {
-    this.app = app;
-    this.options = options != null ? options : {};
-    DrawImageOperation.__super__.constructor.apply(this, arguments);
-    this.options.resizeButtonOffset = 20;
-    this.options.scale = this.options.resizeButtonOffset + 100;
-    this.options.stickerImageWidth = 100;
-    this.options.stickerImageHeight = 100;
-    this.options.sticker = "stickers/sticker-glasses-nerd.png";
-    this.options.widthRange = 570;
-    this.options.heightRange = 427;
-  }
-
-
-  /*
-    @param {String} sticker
-   */
-
-  DrawImageOperation.prototype.useSticker = function(sticker) {
-    this.options.sticker = sticker;
-    return this.emit("updateOptions", this.options);
-  };
-
-  DrawImageOperation.prototype.apply = function(imageData) {
-    return Queue.promise((function(_this) {
-      return function(resolve, reject) {
-        var stickerImage;
-        stickerImage = new Image();
-        stickerImage.onload = function() {
-          return resolve(stickerImage);
-        };
-        return stickerImage.src = _this.app.buildAssetsPath(_this.options.sticker);
-      };
-    })(this)).then((function(_this) {
-      return function(stickerImage) {
-        var canvas, context, ratio, scaling;
-        ratio = stickerImage.height / stickerImage.width;
-        _this.options.stickerImageWidth = _this.options.scale - _this.options.resizeButtonOffset;
-        _this.options.stickerImageHeight = (_this.options.scale - _this.options.resizeButtonOffset) * ratio;
-        canvas = Utils.newCanvasFromImageData(imageData);
-        context = canvas.getContext("2d");
-        if (_this.options.stickerPosition == null) {
-          _this.options.stickerPosition = new Vector2(canvas.width / 2, canvas.height / 2);
-        }
-        scaling = canvas.width / _this.options.widthRange;
-        context.drawImage(stickerImage, _this.options.stickerPosition.x * scaling, _this.options.stickerPosition.y * scaling, _this.options.stickerImageWidth * scaling, _this.options.stickerImageHeight * scaling);
-        return context.getImageData(0, 0, imageData.width, imageData.height);
-      };
-    })(this));
-  };
-
-  return DrawImageOperation;
-
-})(Operation);
-
-
-
-},{"../math/rect.coffee":2,"../math/vector2.coffee":3,"../utils.coffee":75,"../vendor/queue.coffee":77,"./operation.coffee":53}],8:[function(require,module,exports){
+},{"../math/vector2.coffee":3,"../utils.coffee":67,"./operation.coffee":49}],7:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -877,7 +797,7 @@ module.exports = A15Filter;
 
 
 
-},{"./filter.coffee":15,"./primitives/brightness.coffee":33,"./primitives/contrast.coffee":34,"./primitives/tonecurve.coffee":42}],9:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/brightness.coffee":32,"./primitives/contrast.coffee":33,"./primitives/tonecurve.coffee":41}],8:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -920,7 +840,7 @@ module.exports = BreezeFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/desaturation.coffee":35,"./primitives/tonecurve.coffee":42}],10:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/desaturation.coffee":34,"./primitives/tonecurve.coffee":41}],9:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -951,7 +871,7 @@ module.exports = BWFilter;
 
 
 
-},{"./primitives/grayscale.coffee":38}],11:[function(require,module,exports){
+},{"./primitives/grayscale.coffee":37}],10:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -990,7 +910,7 @@ module.exports = BWHardFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/contrast.coffee":34,"./primitives/grayscale.coffee":38}],12:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/contrast.coffee":33,"./primitives/grayscale.coffee":37}],11:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1027,7 +947,7 @@ module.exports = CelsiusFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],13:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],12:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1064,7 +984,7 @@ module.exports = ChestFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],14:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],13:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1095,7 +1015,7 @@ module.exports = DefaultFilter;
 
 
 
-},{"./primitives/identity.coffee":39}],15:[function(require,module,exports){
+},{"./primitives/identity.coffee":38}],14:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1126,7 +1046,7 @@ module.exports = Filter;
 
 
 
-},{"../operation.coffee":53}],16:[function(require,module,exports){
+},{"../operation.coffee":49}],15:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1163,7 +1083,7 @@ module.exports = FixieFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],17:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],16:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1204,7 +1124,7 @@ module.exports = FoodFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/contrast.coffee":34,"./primitives/saturation.coffee":40}],18:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/contrast.coffee":33,"./primitives/saturation.coffee":39}],17:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1241,7 +1161,7 @@ module.exports = FridgeFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],19:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],18:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1278,7 +1198,7 @@ module.exports = FrontFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],20:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],19:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1323,7 +1243,7 @@ module.exports = GlamFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/contrast.coffee":34,"./primitives/grayscale.coffee":38,"./primitives/tonecurve.coffee":42}],21:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/contrast.coffee":33,"./primitives/grayscale.coffee":37,"./primitives/tonecurve.coffee":41}],20:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1354,7 +1274,7 @@ module.exports = GobblinFilter;
 
 
 
-},{"./primitives/gobblin.coffee":37}],22:[function(require,module,exports){
+},{"./primitives/gobblin.coffee":36}],21:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1395,7 +1315,7 @@ module.exports = K1Filter;
 
 
 
-},{"./filter.coffee":15,"./primitives/saturation.coffee":40,"./primitives/tonecurve.coffee":42}],23:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/saturation.coffee":39,"./primitives/tonecurve.coffee":41}],22:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1438,7 +1358,7 @@ module.exports = K2Filter;
 
 
 
-},{"./filter.coffee":15,"./primitives/softcoloroverlay.coffee":41,"./primitives/tonecurve.coffee":42}],24:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/softcoloroverlay.coffee":40,"./primitives/tonecurve.coffee":41}],23:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1471,7 +1391,7 @@ module.exports = K6Filter;
 
 
 
-},{"./primitives/saturation.coffee":40}],25:[function(require,module,exports){
+},{"./primitives/saturation.coffee":39}],24:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1512,7 +1432,7 @@ module.exports = KDynamicFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/saturation.coffee":40,"./primitives/tonecurve.coffee":42}],26:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/saturation.coffee":39,"./primitives/tonecurve.coffee":41}],25:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1555,7 +1475,7 @@ module.exports = LeninFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/desaturation.coffee":35,"./primitives/tonecurve.coffee":42}],27:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/desaturation.coffee":34,"./primitives/tonecurve.coffee":41}],26:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1594,7 +1514,7 @@ module.exports = LomoFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],28:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],27:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1631,7 +1551,7 @@ module.exports = MellowFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],29:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],28:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1672,7 +1592,7 @@ module.exports = MorningFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/glow.coffee":36,"./primitives/tonecurve.coffee":42}],30:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/glow.coffee":35,"./primitives/tonecurve.coffee":41}],29:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1717,7 +1637,7 @@ module.exports = OrchidFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/desaturation.coffee":35,"./primitives/tonecurve.coffee":42}],31:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/desaturation.coffee":34,"./primitives/tonecurve.coffee":41}],30:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1764,7 +1684,7 @@ module.exports = PolaFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/contrast.coffee":34,"./primitives/saturation.coffee":40,"./primitives/tonecurve.coffee":42}],32:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/contrast.coffee":33,"./primitives/saturation.coffee":39,"./primitives/tonecurve.coffee":41}],31:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1811,7 +1731,7 @@ module.exports = Pola669Filter;
 
 
 
-},{"./filter.coffee":15,"./primitives/contrast.coffee":34,"./primitives/saturation.coffee":40,"./primitives/tonecurve.coffee":42}],33:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/contrast.coffee":33,"./primitives/saturation.coffee":39,"./primitives/tonecurve.coffee":41}],32:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1862,7 +1782,7 @@ module.exports = PrimitiveBrightnessFilter;
 
 
 
-},{"../filter.coffee":15}],34:[function(require,module,exports){
+},{"../filter.coffee":14}],33:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1921,7 +1841,7 @@ module.exports = PrimitiveContrastFilter;
 
 
 
-},{"../filter.coffee":15}],35:[function(require,module,exports){
+},{"../filter.coffee":14}],34:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -1972,7 +1892,7 @@ module.exports = PrimitiveDesaturationFilter;
 
 
 
-},{"../filter.coffee":15}],36:[function(require,module,exports){
+},{"../filter.coffee":14}],35:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2031,7 +1951,7 @@ module.exports = PrimitiveGlowFilter;
 
 
 
-},{"../filter.coffee":15}],37:[function(require,module,exports){
+},{"../filter.coffee":14}],36:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2075,7 +1995,7 @@ module.exports = PrimitiveGobblinFilter;
 
 
 
-},{"../filter.coffee":15}],38:[function(require,module,exports){
+},{"../filter.coffee":14}],37:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2119,7 +2039,7 @@ module.exports = PrimtiveGrayscaleFilter;
 
 
 
-},{"../filter.coffee":15}],39:[function(require,module,exports){
+},{"../filter.coffee":14}],38:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2150,7 +2070,7 @@ module.exports = PrimitiveIdentityFilter;
 
 
 
-},{"../filter.coffee":15}],40:[function(require,module,exports){
+},{"../filter.coffee":14}],39:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2205,7 +2125,7 @@ module.exports = PrimitiveSaturationFilter;
 
 
 
-},{"../filter.coffee":15}],41:[function(require,module,exports){
+},{"../filter.coffee":14}],40:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2248,7 +2168,7 @@ module.exports = PrimitiveSoftColorOverlayFilter;
 
 
 
-},{"../filter.coffee":15}],42:[function(require,module,exports){
+},{"../filter.coffee":14}],41:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2452,7 +2372,7 @@ module.exports = PrimitiveToneCurveFilter;
 
 
 
-},{"../filter.coffee":15}],43:[function(require,module,exports){
+},{"../filter.coffee":14}],42:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2501,7 +2421,7 @@ module.exports = PrimitiveX400Filter;
 
 
 
-},{"../filter.coffee":15}],44:[function(require,module,exports){
+},{"../filter.coffee":14}],43:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2544,7 +2464,7 @@ module.exports = QuoziFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/desaturation.coffee":35,"./primitives/tonecurve.coffee":42}],45:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/desaturation.coffee":34,"./primitives/tonecurve.coffee":41}],44:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2585,7 +2505,7 @@ module.exports = SemiRedFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/glow.coffee":36,"./primitives/tonecurve.coffee":42}],46:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/glow.coffee":35,"./primitives/tonecurve.coffee":41}],45:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2630,7 +2550,7 @@ module.exports = SunnyFilter;
 
 
 
-},{"./filter.coffee":15,"./primitives/tonecurve.coffee":42}],47:[function(require,module,exports){
+},{"./filter.coffee":14,"./primitives/tonecurve.coffee":41}],46:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2667,7 +2587,7 @@ module.exports = TexasFilter;
 
 
 
-},{"./primitives/tonecurve.coffee":42}],48:[function(require,module,exports){
+},{"./primitives/tonecurve.coffee":41}],47:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -2698,444 +2618,7 @@ module.exports = X400Filter;
 
 
 
-},{"./primitives/x400.coffee":43}],49:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-
-/*
-  Helpers for the Stack Blur
- */
-var BlurStack, Focus, Operation, Utils, mul_table, shg_table,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-BlurStack = (function() {
-  function BlurStack() {}
-
-  BlurStack.r = 0;
-
-  BlurStack.g = 0;
-
-  BlurStack.b = 0;
-
-  BlurStack.a = 0;
-
-  BlurStack.next = null;
-
-  return BlurStack;
-
-})();
-
-mul_table = [512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292, 512, 454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292, 273, 512, 482, 454, 428, 405, 383, 364, 345, 328, 312, 298, 284, 271, 259, 496, 475, 456, 437, 420, 404, 388, 374, 360, 347, 335, 323, 312, 302, 292, 282, 273, 265, 512, 497, 482, 468, 454, 441, 428, 417, 405, 394, 383, 373, 364, 354, 345, 337, 328, 320, 312, 305, 298, 291, 284, 278, 271, 265, 259, 507, 496, 485, 475, 465, 456, 446, 437, 428, 420, 412, 404, 396, 388, 381, 374, 367, 360, 354, 347, 341, 335, 329, 323, 318, 312, 307, 302, 297, 292, 287, 282, 278, 273, 269, 265, 261, 512, 505, 497, 489, 482, 475, 468, 461, 454, 447, 441, 435, 428, 422, 417, 411, 405, 399, 394, 389, 383, 378, 373, 368, 364, 359, 354, 350, 345, 341, 337, 332, 328, 324, 320, 316, 312, 309, 305, 301, 298, 294, 291, 287, 284, 281, 278, 274, 271, 268, 265, 262, 259, 257, 507, 501, 496, 491, 485, 480, 475, 470, 465, 460, 456, 451, 446, 442, 437, 433, 428, 424, 420, 416, 412, 408, 404, 400, 396, 392, 388, 385, 381, 377, 374, 370, 367, 363, 360, 357, 354, 350, 347, 344, 341, 338, 335, 332, 329, 326, 323, 320, 318, 315, 312, 310, 307, 304, 302, 299, 297, 294, 292, 289, 287, 285, 282, 280, 278, 275, 273, 271, 269, 267, 265, 263, 261, 259];
-
-shg_table = [9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24];
-
-Operation = require("../operation.coffee");
-
-Utils = require("../../utils.coffee");
-
-Focus = (function(_super) {
-  __extends(Focus, _super);
-
-  Focus.prototype.cache = null;
-
-  Focus.prototype.fingerprint = null;
-
-
-  /*
-    @param {ImglyKit} app
-    @param {CanvasRenderingContext2d} context
-    @param {Object} options
-   */
-
-  function Focus(app, options) {
-    var _base;
-    this.app = app;
-    this.options = options != null ? options : {};
-    Focus.__super__.constructor.apply(this, arguments);
-    if ((_base = this.options).radius == null) {
-      _base.radius = 1;
-    }
-  }
-
-  Focus.prototype.apply = function(imageData) {
-    var alpha, fingerprint, index, maskImageData, _i, _ref;
-    fingerprint = Utils.fingerprint(imageData.data);
-    if (fingerprint !== this.fingerprint) {
-      this.cache = this.blur(Utils.cloneImageData(imageData));
-      this.fingerprint = fingerprint;
-    }
-    maskImageData = this.createMaskImageData(imageData);
-    for (index = _i = 0, _ref = imageData.data.length; _i < _ref; index = _i += 4) {
-      alpha = maskImageData.data[index] / 255;
-      imageData.data[index] = alpha * imageData.data[index] + (1 - alpha) * this.cache.data[index];
-      imageData.data[index + 1] = alpha * imageData.data[index + 1] + (1 - alpha) * this.cache.data[index + 1];
-      imageData.data[index + 2] = alpha * imageData.data[index + 2] + (1 - alpha) * this.cache.data[index + 2];
-      imageData.data[index + 3] = 255;
-    }
-    return imageData;
-  };
-
-
-  /*
-    @param {ImageData} originalImageData
-    @returns {ImageData}
-   */
-
-  Focus.prototype.createMaskImageData = function(originalImageData) {
-    var canvas, context;
-    canvas = Utils.newCanvasWithDimensions({
-      width: originalImageData.width,
-      height: originalImageData.height
-    });
-    context = canvas.getContext("2d");
-    this.drawMask(canvas, context);
-    return context.getImageData(0, 0, canvas.width, canvas.height);
-  };
-
-
-  /*
-    Uses quasimondo's StackBlur algorithm to blur
-    the image
-  
-    @param {ImageData} imageData
-    @returns {ImageData}
-   */
-
-  Focus.prototype.blur = function(imageData) {
-    var b_in_sum, b_out_sum, b_sum, div, g_in_sum, g_out_sum, g_sum, height, heightMinus1, i, mul_sum, p, pb, pg, pixels, pr, r_in_sum, r_out_sum, r_sum, radius, radiusPlus1, rbs, shg_sum, stack, stackEnd, stackIn, stackOut, stackStart, sumFactor, w4, width, widthMinus1, x, y, yi, yp, yw, _i, _j, _k, _l, _m, _n, _o, _p, _q;
-    radius = this.options.radius;
-    width = imageData.width;
-    height = imageData.height;
-    pixels = imageData.data;
-    div = radius + radius + 1;
-    w4 = width << 2;
-    widthMinus1 = width - 1;
-    heightMinus1 = height - 1;
-    radiusPlus1 = radius + 1;
-    sumFactor = radiusPlus1 * (radiusPlus1 + 1) / 2;
-    stackStart = new BlurStack();
-    stack = stackStart;
-    for (i = _i = 1; 1 <= div ? _i < div : _i > div; i = 1 <= div ? ++_i : --_i) {
-      stack = stack.next = new BlurStack();
-      if (i === radiusPlus1) {
-        stackEnd = stack;
-      }
-    }
-    stack.next = stackStart;
-    stackIn = null;
-    stackOut = null;
-    yw = yi = 0;
-    mul_sum = mul_table[radius];
-    shg_sum = shg_table[radius];
-    for (y = _j = 0; 0 <= height ? _j < height : _j > height; y = 0 <= height ? ++_j : --_j) {
-      r_in_sum = g_in_sum = b_in_sum = r_sum = g_sum = b_sum = 0;
-      r_out_sum = radiusPlus1 * (pr = pixels[yi]);
-      g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
-      b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
-      r_sum += sumFactor * pr;
-      g_sum += sumFactor * pg;
-      b_sum += sumFactor * pb;
-      stack = stackStart;
-      for (i = _k = 0; 0 <= radiusPlus1 ? _k < radiusPlus1 : _k > radiusPlus1; i = 0 <= radiusPlus1 ? ++_k : --_k) {
-        stack.r = pr;
-        stack.g = pg;
-        stack.b = pb;
-        stack = stack.next;
-      }
-      for (i = _l = 1; 1 <= radiusPlus1 ? _l < radiusPlus1 : _l > radiusPlus1; i = 1 <= radiusPlus1 ? ++_l : --_l) {
-        p = yi + ((widthMinus1 < i ? widthMinus1 : i) << 2);
-        r_sum += (stack.r = (pr = pixels[p])) * (rbs = radiusPlus1 - i);
-        g_sum += (stack.g = (pg = pixels[p + 1])) * rbs;
-        b_sum += (stack.b = (pb = pixels[p + 2])) * rbs;
-        r_in_sum += pr;
-        g_in_sum += pg;
-        b_in_sum += pb;
-        stack = stack.next;
-      }
-      stackIn = stackStart;
-      stackOut = stackEnd;
-      for (x = _m = 0; 0 <= width ? _m < width : _m > width; x = 0 <= width ? ++_m : --_m) {
-        pixels[yi] = (r_sum * mul_sum) >> shg_sum;
-        pixels[yi + 1] = (g_sum * mul_sum) >> shg_sum;
-        pixels[yi + 2] = (b_sum * mul_sum) >> shg_sum;
-        r_sum -= r_out_sum;
-        g_sum -= g_out_sum;
-        b_sum -= b_out_sum;
-        r_out_sum -= stackIn.r;
-        g_out_sum -= stackIn.g;
-        b_out_sum -= stackIn.b;
-        p = (yw + ((p = x + radius + 1) < widthMinus1 ? p : widthMinus1)) << 2;
-        r_in_sum += (stackIn.r = pixels[p]);
-        g_in_sum += (stackIn.g = pixels[p + 1]);
-        b_in_sum += (stackIn.b = pixels[p + 2]);
-        r_sum += r_in_sum;
-        g_sum += g_in_sum;
-        b_sum += b_in_sum;
-        stackIn = stackIn.next;
-        r_out_sum += (pr = stackOut.r);
-        g_out_sum += (pg = stackOut.g);
-        b_out_sum += (pb = stackOut.b);
-        r_in_sum -= pr;
-        g_in_sum -= pg;
-        b_in_sum -= pb;
-        stackOut = stackOut.next;
-        yi += 4;
-      }
-      yw += width;
-    }
-    for (x = _n = 0; 0 <= width ? _n < width : _n > width; x = 0 <= width ? ++_n : --_n) {
-      g_in_sum = b_in_sum = r_in_sum = g_sum = b_sum = r_sum = 0;
-      yi = x << 2;
-      r_out_sum = radiusPlus1 * (pr = pixels[yi]);
-      g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
-      b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
-      r_sum += sumFactor * pr;
-      g_sum += sumFactor * pg;
-      b_sum += sumFactor * pb;
-      stack = stackStart;
-      for (i = _o = 0; 0 <= radiusPlus1 ? _o < radiusPlus1 : _o > radiusPlus1; i = 0 <= radiusPlus1 ? ++_o : --_o) {
-        stack.r = pr;
-        stack.g = pg;
-        stack.b = pb;
-        stack = stack.next;
-      }
-      yp = width;
-      for (i = _p = 1; 1 <= radius ? _p <= radius : _p >= radius; i = 1 <= radius ? ++_p : --_p) {
-        yi = (yp + x) << 2;
-        r_sum += (stack.r = (pr = pixels[yi])) * (rbs = radiusPlus1 - i);
-        g_sum += (stack.g = (pg = pixels[yi + 1])) * rbs;
-        b_sum += (stack.b = (pb = pixels[yi + 2])) * rbs;
-        r_in_sum += pr;
-        g_in_sum += pg;
-        b_in_sum += pb;
-        stack = stack.next;
-        if (i < heightMinus1) {
-          yp += width;
-        }
-      }
-      yi = x;
-      stackIn = stackStart;
-      stackOut = stackEnd;
-      for (y = _q = 0; 0 <= height ? _q < height : _q > height; y = 0 <= height ? ++_q : --_q) {
-        p = yi << 2;
-        pixels[p] = (r_sum * mul_sum) >> shg_sum;
-        pixels[p + 1] = (g_sum * mul_sum) >> shg_sum;
-        pixels[p + 2] = (b_sum * mul_sum) >> shg_sum;
-        r_sum -= r_out_sum;
-        g_sum -= g_out_sum;
-        b_sum -= b_out_sum;
-        r_out_sum -= stackIn.r;
-        g_out_sum -= stackIn.g;
-        b_out_sum -= stackIn.b;
-        p = (x + (((p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1) * width)) << 2;
-        r_sum += (r_in_sum += (stackIn.r = pixels[p]));
-        g_sum += (g_in_sum += (stackIn.g = pixels[p + 1]));
-        b_sum += (b_in_sum += (stackIn.b = pixels[p + 2]));
-        stackIn = stackIn.next;
-        r_out_sum += (pr = stackOut.r);
-        g_out_sum += (pg = stackOut.g);
-        b_out_sum += (pb = stackOut.b);
-        r_in_sum -= pr;
-        g_in_sum -= pg;
-        b_in_sum -= pb;
-        stackOut = stackOut.next;
-        yi += width;
-      }
-    }
-    return imageData;
-  };
-
-  return Focus;
-
-})(Operation);
-
-module.exports = Focus;
-
-
-
-},{"../../utils.coffee":75,"../operation.coffee":53}],50:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-var Focus, LinearFocus, Vector2,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-Focus = require("./focus.coffee");
-
-Vector2 = require("../../math/vector2.coffee");
-
-LinearFocus = (function(_super) {
-  __extends(LinearFocus, _super);
-
-
-  /*
-    @param {ImglyKit} app
-    @param {CanvasRenderingContext2d} context
-    @param {Object} options
-   */
-
-  function LinearFocus(app, options) {
-    var _base, _base1, _base2;
-    this.app = app;
-    this.options = options != null ? options : {};
-    LinearFocus.__super__.constructor.apply(this, arguments);
-    if ((_base = this.options).radius == null) {
-      _base.radius = 5;
-    }
-    if ((_base1 = this.options).controlPoint1Position == null) {
-      _base1.controlPoint1Position = new Vector2(0.5, 0.4);
-    }
-    if ((_base2 = this.options).controlPoint2Position == null) {
-      _base2.controlPoint2Position = new Vector2(0.5, 0.6);
-    }
-  }
-
-
-  /*
-    @param {HTMLCanvasElement} canvas
-    @param {CanvasRenderingContext2d} context
-   */
-
-  LinearFocus.prototype.drawMask = function(canvas, context) {
-
-    /*
-      Multiply the control points with the canvas
-      size to get real pixel information
-     */
-    var controlPoint1, controlPoint2, end, gradient, halfDiff, start;
-    controlPoint1 = new Vector2().copy(this.options.controlPoint1Position).multiplyWithRect(canvas);
-    controlPoint2 = new Vector2().copy(this.options.controlPoint2Position).multiplyWithRect(canvas);
-
-    /*
-      Calculate the difference between the two points
-      and divide it by two
-     */
-    halfDiff = new Vector2().copy(controlPoint2).subtract(controlPoint1).divide(2);
-
-    /*
-      Calculate start and end of the gradient
-      We want the gradient to start 50% before
-      and 50% after the control points, so that
-      the gradient is outside of our control points
-     */
-    start = new Vector2().copy(controlPoint1).subtract(halfDiff);
-    end = new Vector2().copy(controlPoint2).add(halfDiff);
-
-    /*
-      Finally draw the gradient
-     */
-    gradient = context.createLinearGradient(start.x, start.y, end.x, end.y);
-    gradient.addColorStop(0, '#000000');
-    gradient.addColorStop(0.25, '#FFFFFF');
-    gradient.addColorStop(0.75, '#FFFFFF');
-    gradient.addColorStop(1, '#000000');
-    context.fillStyle = gradient;
-    return context.fillRect(0, 0, canvas.width, canvas.height);
-  };
-
-  return LinearFocus;
-
-})(Focus);
-
-module.exports = LinearFocus;
-
-
-
-},{"../../math/vector2.coffee":3,"./focus.coffee":49}],51:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-var Focus, RadialFocus, Vector2,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-Focus = require("./focus.coffee");
-
-Vector2 = require("../../math/vector2.coffee");
-
-RadialFocus = (function(_super) {
-  __extends(RadialFocus, _super);
-
-
-  /*
-    @param {ImglyKit} app
-    @param {CanvasRenderingContext2d} context
-    @param {Object} options
-   */
-
-  function RadialFocus(app, options) {
-    var _base, _base1, _base2;
-    this.app = app;
-    this.options = options != null ? options : {};
-    RadialFocus.__super__.constructor.apply(this, arguments);
-    if ((_base = this.options).radius == null) {
-      _base.radius = 5;
-    }
-    if ((_base1 = this.options).controlPoint1Position == null) {
-      _base1.controlPoint1Position = new Vector2(0.5, 0.4);
-    }
-    if ((_base2 = this.options).controlPoint2Position == null) {
-      _base2.controlPoint2Position = new Vector2(0.5, 0.6);
-    }
-  }
-
-
-  /*
-    @param {HTMLCanvasElement} canvas
-    @param {CanvasRenderingContext2d} context
-   */
-
-  RadialFocus.prototype.drawMask = function(canvas, context) {
-
-    /*
-      Multiply the control points with the canvas
-      size to get real pixel information
-     */
-    var center, controlPoint1, controlPoint2, gradient, halfDiff, innerRadius, outerRadius;
-    controlPoint1 = new Vector2().copy(this.options.controlPoint1Position).multiplyWithRect(canvas);
-    controlPoint2 = new Vector2().copy(this.options.controlPoint2Position).multiplyWithRect(canvas);
-
-    /*
-      Calculate the difference between the two points
-      and divide it by two
-     */
-    halfDiff = new Vector2().copy(controlPoint2).subtract(controlPoint1).divide(2);
-
-    /*
-      The of the circle is the center of the two points
-     */
-    center = new Vector2().copy(controlPoint1).add(halfDiff);
-    innerRadius = Math.sqrt(Math.pow(halfDiff.x, 2) + Math.pow(halfDiff.y, 2));
-    outerRadius = innerRadius * 3 / 2;
-
-    /*
-      Finally draw the gradient
-     */
-    gradient = context.createRadialGradient(center.x, center.y, outerRadius, center.x, center.y, innerRadius);
-    gradient.addColorStop(0, '#000000');
-    gradient.addColorStop(1, '#FFFFFF');
-    context.fillStyle = gradient;
-    return context.fillRect(0, 0, canvas.width, canvas.height);
-  };
-
-  return RadialFocus;
-
-})(Focus);
-
-module.exports = RadialFocus;
-
-
-
-},{"../../math/vector2.coffee":3,"./focus.coffee":49}],52:[function(require,module,exports){
+},{"./primitives/x400.coffee":42}],48:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -3337,7 +2820,7 @@ module.exports = FramesOperation;
 
 
 
-},{"../math/rect.coffee":2,"../math/vector2.coffee":3,"../utils.coffee":75,"../vendor/queue.coffee":77,"./operation.coffee":53}],53:[function(require,module,exports){
+},{"../math/rect.coffee":2,"../math/vector2.coffee":3,"../utils.coffee":67,"../vendor/queue.coffee":69,"./operation.coffee":49}],49:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -3506,7 +2989,7 @@ module.exports = Operation;
 
 
 
-},{"../utils.coffee":75,"../vendor/queue.coffee":77,"events":80}],54:[function(require,module,exports){
+},{"../utils.coffee":67,"../vendor/queue.coffee":69,"events":71}],50:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -3662,7 +3145,7 @@ module.exports = OrientationOperation;
 
 
 
-},{"../utils.coffee":75,"./operation.coffee":53}],55:[function(require,module,exports){
+},{"../utils.coffee":67,"./operation.coffee":49}],51:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -3720,98 +3203,7 @@ module.exports = SaturationOperation;
 
 
 
-},{"./filters/filter.coffee":15,"./filters/primitives/saturation.coffee":40}],56:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-var FontOperation, Operation, Rect, Utils, Vector2,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-Operation = require("./operation.coffee");
-
-Utils = require("../utils.coffee");
-
-Vector2 = require("../math/vector2.coffee");
-
-Rect = require("../math/rect.coffee");
-
-FontOperation = (function(_super) {
-  __extends(FontOperation, _super);
-
-  FontOperation.prototype.renderPreview = false;
-
-  function FontOperation(app, options) {
-    this.app = app;
-    this.options = options != null ? options : {};
-    FontOperation.__super__.constructor.apply(this, arguments);
-    this.options.start = new Vector2(0.2, 0.2);
-    this.options.width = 300;
-    this.options.font = "Helvetica";
-    this.options.text = "Text";
-    this.options.color = "rgba(255, 255, 255, 1.0)";
-    this.options.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    this.options.fontSize = 0.1;
-    this.options.lineHeight = 1.1;
-    this.options.paddingLeft = 0;
-    this.options.paddingTop = 0;
-  }
-
-
-  /*
-    @param {String} font
-   */
-
-  FontOperation.prototype.setFont = function(font) {
-    this.options.font = font;
-    return this.emit("updateOptions", this.options);
-  };
-
-  FontOperation.prototype.apply = function(imageData) {
-    var boundingBoxHeight, boundingBoxWidth, canvas, context, line, lineHeight, lineNum, lineOffset, lineWidth, padding, paddingVector, scaledFontSize, scaledStart, _i, _j, _len, _len1, _ref, _ref1;
-    scaledFontSize = this.options.fontSize * imageData.height;
-    paddingVector = new Vector2(this.options.paddingLeft, this.options.paddingTop);
-    scaledStart = new Vector2().copy(this.options.start).add(paddingVector).multiplyWithRect(imageData);
-    canvas = Utils.newCanvasFromImageData(imageData);
-    context = canvas.getContext("2d");
-    context.font = "normal " + scaledFontSize + "px " + this.options.font;
-    context.textBaseline = "hanging";
-    lineHeight = this.options.lineHeight;
-    boundingBoxWidth = 0;
-    boundingBoxHeight = 0;
-    _ref = this.options.text.split("\n");
-    for (lineNum = _i = 0, _len = _ref.length; _i < _len; lineNum = ++_i) {
-      line = _ref[lineNum];
-      lineWidth = context.measureText(line).width;
-      if (lineWidth > boundingBoxWidth) {
-        boundingBoxWidth = lineWidth;
-      }
-      boundingBoxHeight += scaledFontSize * lineHeight;
-    }
-    context.fillStyle = this.options.backgroundColor;
-    padding = 10;
-    context.fillRect(scaledStart.x - padding, scaledStart.y - padding, boundingBoxWidth + padding * 2, boundingBoxHeight + padding);
-    context.fillStyle = this.options.color;
-    _ref1 = this.options.text.split("\n");
-    for (lineNum = _j = 0, _len1 = _ref1.length; _j < _len1; lineNum = ++_j) {
-      line = _ref1[lineNum];
-      lineOffset = lineNum * scaledFontSize * lineHeight;
-      context.fillText(line, scaledStart.x, scaledStart.y + this.options.paddingLeft + lineOffset);
-    }
-    return context.getImageData(0, 0, imageData.width, imageData.height);
-  };
-
-  return FontOperation;
-
-})(Operation);
-
-module.exports = FontOperation;
-
-
-
-},{"../math/rect.coffee":2,"../math/vector2.coffee":3,"../utils.coffee":75,"./operation.coffee":53}],57:[function(require,module,exports){
+},{"./filters/filter.coffee":14,"./filters/primitives/saturation.coffee":39}],52:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -4121,7 +3513,7 @@ module.exports = PhotoProcessor;
 
 
 
-},{"./operations/crop.coffee":6,"./operations/filters/primitives/identity.coffee":39,"./utils.coffee":75,"./vendor/perf.coffee":76,"./vendor/queue.coffee":77,"events":80}],58:[function(require,module,exports){
+},{"./operations/crop.coffee":6,"./operations/filters/primitives/identity.coffee":38,"./utils.coffee":67,"./vendor/perf.coffee":68,"./vendor/queue.coffee":69,"events":71}],53:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -4302,7 +3694,7 @@ module.exports = UICanvas;
 
 
 
-},{"../utils.coffee":75,"jquery":"jquery"}],59:[function(require,module,exports){
+},{"../utils.coffee":67,"jquery":"jquery"}],54:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -4508,7 +3900,7 @@ module.exports = UIControls;
 
 
 
-},{"./controls/overview.coffee":70,"events":80,"jquery":"jquery"}],60:[function(require,module,exports){
+},{"./controls/overview.coffee":64,"events":71,"jquery":"jquery"}],55:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -4634,7 +4026,7 @@ module.exports = UIControlsBase;
 
 
 
-},{"events":80,"jquery":"jquery"}],61:[function(require,module,exports){
+},{"events":71,"jquery":"jquery"}],56:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -4809,7 +4201,7 @@ module.exports = UIControlsBaseList;
 
 
 
-},{"../../../utils.coffee":75,"./base.coffee":60,"jquery":"jquery"}],62:[function(require,module,exports){
+},{"../../../utils.coffee":67,"./base.coffee":55,"jquery":"jquery"}],57:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -5071,7 +4463,7 @@ module.exports = UIControlsBaseSlider;
 
 
 
-},{"./base.coffee":60,"events":80,"jquery":"jquery"}],63:[function(require,module,exports){
+},{"./base.coffee":55,"events":71,"jquery":"jquery"}],58:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -5106,7 +4498,7 @@ module.exports = UIControlsBrightness;
 
 
 
-},{"./base/slider.coffee":62}],64:[function(require,module,exports){
+},{"./base/slider.coffee":57}],59:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -5141,7 +4533,7 @@ module.exports = UIControlsContrast;
 
 
 
-},{"./base/slider.coffee":62}],65:[function(require,module,exports){
+},{"./base/slider.coffee":57}],60:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -5183,16 +4575,6 @@ UIControlsCrop = (function(_super) {
     this.operationClass = require("../../operations/crop.coffee");
     this.listItems = [
       {
-        name: "Custom",
-        cssClass: "custom",
-        method: "setSize",
-        "arguments": ["free"],
-        tooltip: "Freeform crop",
-        "default": true,
-        options: {
-          size: "free"
-        }
-      }, {
         name: "Square",
         cssClass: "square",
         method: "setSize",
@@ -5201,27 +4583,52 @@ UIControlsCrop = (function(_super) {
         options: {
           size: "square"
         }
-      }, {
-        name: "4:3",
-        cssClass: "4-3",
-        method: "setSize",
-        "arguments": ["4:3"],
-        tooltip: "4:3 crop",
-        options: {
-          size: "4:3"
-        }
-      }, {
-        name: "16:9",
-        cssClass: "16-9",
-        method: "setSize",
-        "arguments": ["16:9"],
-        tooltip: "16:9 crop",
-        options: {
-          size: "16:9"
-        }
       }
     ];
   }
+
+
+  /*
+  	@listItems = [
+    {
+      name: "Custom"
+      cssClass: "custom"
+      method: "setSize"
+      arguments: ["free"]
+      tooltip: "Freeform crop"
+      default: true
+      options:
+        size: "free"
+    },
+    {
+      name: "Square"
+      cssClass: "square"
+      method: "setSize"
+      arguments: ["square"]
+      tooltip: "Squared crop"
+      options:
+        size: "square"
+    },
+    {
+      name: "4:3"
+      cssClass: "4-3"
+      method: "setSize"
+      arguments: ["4:3"]
+      tooltip: "4:3 crop"
+      options:
+        size: "4:3"
+    },
+    {
+      name: "16:9"
+      cssClass: "16-9"
+      method: "setSize"
+      arguments: ["16:9"]
+      tooltip: "16:9 crop"
+      options:
+        size: "16:9"
+    }
+  ]
+   */
 
   UIControlsCrop.prototype.updateOptions = function(operationOptions) {
     this.operationOptions = operationOptions;
@@ -5613,7 +5020,7 @@ module.exports = UIControlsCrop;
 
 
 
-},{"../../math/rect.coffee":2,"../../math/vector2.coffee":3,"../../operations/crop.coffee":6,"./base/list.coffee":61,"jquery":"jquery"}],66:[function(require,module,exports){
+},{"../../math/rect.coffee":2,"../../math/vector2.coffee":3,"../../operations/crop.coffee":6,"./base/list.coffee":56,"jquery":"jquery"}],61:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -5680,351 +5087,7 @@ module.exports = UIControlsFilters;
 
 
 
-},{"../../operations/filters/a15.coffee":8,"../../operations/filters/breeze.coffee":9,"../../operations/filters/bw.coffee":10,"../../operations/filters/bwhard.coffee":11,"../../operations/filters/celsius.coffee":12,"../../operations/filters/chest.coffee":13,"../../operations/filters/default.coffee":14,"../../operations/filters/fixie.coffee":16,"../../operations/filters/food.coffee":17,"../../operations/filters/fridge.coffee":18,"../../operations/filters/front.coffee":19,"../../operations/filters/glam.coffee":20,"../../operations/filters/gobblin.coffee":21,"../../operations/filters/k1.coffee":22,"../../operations/filters/k2.coffee":23,"../../operations/filters/k6.coffee":24,"../../operations/filters/kdynamic.coffee":25,"../../operations/filters/lenin.coffee":26,"../../operations/filters/lomo.coffee":27,"../../operations/filters/mellow.coffee":28,"../../operations/filters/morning.coffee":29,"../../operations/filters/orchid.coffee":30,"../../operations/filters/pola.coffee":31,"../../operations/filters/pola669.coffee":32,"../../operations/filters/quozi.coffee":44,"../../operations/filters/semired.coffee":45,"../../operations/filters/sunny.coffee":46,"../../operations/filters/texas.coffee":47,"../../operations/filters/x400.coffee":48,"../../utils.coffee":75,"./base/list.coffee":61,"jquery":"jquery"}],67:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-var $, List, UIControlsFocus, Utils, Vector2, linearOperation, radialOperation,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-$ = require("jquery");
-
-List = require("./base/list.coffee");
-
-Utils = require("../../utils.coffee");
-
-Vector2 = require("../../math/vector2.coffee");
-
-radialOperation = require("../../operations/focus/radial.coffee");
-
-linearOperation = require("../../operations/focus/linear.coffee");
-
-UIControlsFocus = (function(_super) {
-  __extends(UIControlsFocus, _super);
-
-  UIControlsFocus.prototype.displayButtons = true;
-
-
-  /*
-    @param {ImglyKit} app
-    @param {ImglyKit.UI} ui
-    @param {ImglyKit.UI.Controls} controls
-   */
-
-  function UIControlsFocus(app, ui, controls) {
-    this.app = app;
-    this.ui = ui;
-    this.controls = controls;
-    UIControlsFocus.__super__.constructor.apply(this, arguments);
-    this.listItems = [
-      {
-        name: "Radial",
-        cssClass: "radial",
-        operation: radialOperation,
-        tooltip: "Radial blur",
-        "default": true
-      }, {
-        name: "Linear",
-        cssClass: "linear",
-        operation: linearOperation,
-        tooltip: "Linear blur"
-      }
-    ];
-  }
-
-
-  /*
-    @params {Object} options
-   */
-
-  UIControlsFocus.prototype.updateOptions = function(operationOptions) {
-    this.operationOptions = operationOptions;
-    return this.rerenderCanvas();
-  };
-
-
-  /*
-    We call this every time we change the options, e.g.
-    when the user drags a knob or a crosshair
-   */
-
-  UIControlsFocus.prototype.onOptionsUpdated = function() {
-    this.operation.setOptions(this.operationOptions);
-    this.rerenderCanvas();
-    this.repositionControls();
-    return this.emit("renderPreview");
-  };
-
-
-  /*
-    @param {jQuery.Object} canvasControlsContainer
-   */
-
-  UIControlsFocus.prototype.hasCanvasControls = true;
-
-  UIControlsFocus.prototype.setupCanvasControls = function(canvasControlsContainer) {
-    var height, width;
-    this.canvasControlsContainer = canvasControlsContainer;
-    width = this.canvasControlsContainer.width();
-    height = this.canvasControlsContainer.height();
-    this.canvas = $("<canvas>").css({
-      width: width,
-      height: height
-    }).appendTo(this.canvasControlsContainer);
-    this.canvas = this.canvas.get(0);
-    this.canvas.width = $(this.canvas).width();
-    this.canvas.height = $(this.canvas).height();
-    this.context = this.canvas.getContext("2d");
-    if (window.devicePixelRatio > 1) {
-      this.canvas.width *= window.devicePixelRatio;
-      return this.canvas.height *= window.devicePixelRatio;
-    }
-  };
-
-
-  /*
-    @param {Object} option
-    @param {jQuery.Object} item
-   */
-
-  UIControlsFocus.prototype.handleOptionSelect = function(option, item) {
-    UIControlsFocus.__super__.handleOptionSelect.apply(this, arguments);
-    switch (option.operation) {
-      case radialOperation:
-        this.setControlsMode("radial");
-        break;
-      case linearOperation:
-        this.setControlsMode("linear");
-    }
-    return this.onOptionsUpdated();
-  };
-
-
-  /*
-    @param {String} mode
-   */
-
-  UIControlsFocus.prototype.setControlsMode = function(mode) {
-    var i, knob, _i;
-    this.controlsMode = mode;
-    this.canvasControlsContainer.find("div").remove();
-    this.knobs = [];
-    for (i = _i = 0; _i <= 1; i = ++_i) {
-      knob = $("<div>").addClass(ImglyKit.classPrefix + "canvas-knob");
-      knob.appendTo(this.canvasControlsContainer);
-      this.knobs.push(knob);
-    }
-    this.crosshair = $("<div>").addClass(ImglyKit.classPrefix + "canvas-crosshair");
-    this.crosshair.appendTo(this.canvasControlsContainer);
-    this.handleKnobControl();
-    return this.handleCrosshairControl();
-  };
-
-
-  /*
-    We call this everytime the user dragged a knob
-    or a crosshair to reposition the controls
-   */
-
-  UIControlsFocus.prototype.repositionControls = function() {
-    var canvasSize, controlPoint1, controlPoint2, diff, i, knob, position, _i;
-    canvasSize = {
-      width: this.canvasControlsContainer.width(),
-      height: this.canvasControlsContainer.height()
-    };
-    for (i = _i = 0; _i <= 1; i = ++_i) {
-      knob = this.knobs[i];
-      position = this.operationOptions["controlPoint" + (i + 1) + "Position"];
-      knob.css({
-        left: canvasSize.width * position.x,
-        top: canvasSize.height * position.y
-      });
-    }
-
-    /*
-      Multiply the control points with the canvas
-      size to get real pixel information
-     */
-    controlPoint1 = new Vector2().copy(this.operationOptions.controlPoint1Position).multiplyWithRect(canvasSize);
-    controlPoint2 = new Vector2().copy(this.operationOptions.controlPoint2Position).multiplyWithRect(canvasSize);
-    diff = new Vector2().copy(controlPoint2).subtract(controlPoint1).divide(2);
-    return this.crosshair.css({
-      left: controlPoint1.x + diff.x,
-      top: controlPoint1.y + diff.y
-    });
-  };
-
-
-  /*
-    Handle dragging of the crosshair
-   */
-
-  UIControlsFocus.prototype.handleCrosshairControl = function() {
-    var canvasSize;
-    canvasSize = new Vector2(this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
-    return this.crosshair.mousedown((function(_this) {
-      return function(e) {
-        var lastPos;
-        lastPos = new Vector2(e.clientX, e.clientY);
-        $(document).mousemove(function(e) {
-          var i, knobPositions, newKnobPositions, normalizedDiff, _i, _j;
-          normalizedDiff = new Vector2(e.clientX, e.clientY).subtract(lastPos).divide(canvasSize);
-          newKnobPositions = {};
-          knobPositions = {};
-          for (i = _i = 1; _i <= 2; i = ++_i) {
-            knobPositions[i] = _this.operationOptions["controlPoint" + i + "Position"];
-            newKnobPositions[i] = new Vector2().copy(knobPositions[i]).add(normalizedDiff);
-            if (!Utils.withinBoundaries(newKnobPositions[i])) {
-              return;
-            }
-          }
-          for (i = _j = 1; _j <= 2; i = ++_j) {
-            knobPositions[i].copy(newKnobPositions[i]);
-          }
-          lastPos.set(e.clientX, e.clientY);
-          return _this.onOptionsUpdated();
-        });
-        return $(document).mouseup(function(e) {
-          $(document).off("mousemove");
-          return $(document).off("mouseup");
-        });
-      };
-    })(this));
-  };
-
-
-  /*
-    Handle dragging of the knobs
-   */
-
-  UIControlsFocus.prototype.handleKnobControl = function() {
-    var canvasSize, index, knob, _i, _len, _ref, _results;
-    canvasSize = new Vector2(this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
-    _ref = this.knobs;
-    _results = [];
-    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-      knob = _ref[index];
-      _results.push(((function(_this) {
-        return function(knob, index) {
-          return knob.mousedown(function(e) {
-            var lastPos;
-            lastPos = new Vector2(e.clientX, e.clientY);
-            $(document).mousemove(function(e) {
-              var currentKnobIndex, currentKnobPosition, newKnobPosition, newOppositeKnobPosition, normalizedDiff, oppositeKnobIndex, oppositeKnobPosition;
-              normalizedDiff = new Vector2(e.clientX, e.clientY).subtract(lastPos).divide(canvasSize);
-              currentKnobIndex = index + 1;
-              currentKnobPosition = _this.operationOptions["controlPoint" + currentKnobIndex + "Position"];
-              oppositeKnobIndex = index === 0 ? 2 : 1;
-              oppositeKnobPosition = _this.operationOptions["controlPoint" + oppositeKnobIndex + "Position"];
-              newKnobPosition = new Vector2().copy(currentKnobPosition).add(normalizedDiff);
-              newOppositeKnobPosition = new Vector2().copy(oppositeKnobPosition).subtract(normalizedDiff);
-              if (!(Utils.withinBoundaries(newKnobPosition) && Utils.withinBoundaries(newOppositeKnobPosition))) {
-                return;
-              }
-              currentKnobPosition.copy(newKnobPosition);
-              oppositeKnobPosition.copy(newOppositeKnobPosition);
-              _this.onOptionsUpdated();
-              return lastPos.set(e.clientX, e.clientY);
-            });
-            return $(document).mouseup(function() {
-              $(document).off("mouseup");
-              return $(document).off("mousemove");
-            });
-          });
-        };
-      })(this))(knob, index));
-    }
-    return _results;
-  };
-
-
-  /*
-    Re-renders the canvas controls
-   */
-
-  UIControlsFocus.prototype.rerenderCanvas = function() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    switch (this.controlsMode) {
-      case "radial":
-        return this.drawRadialControl();
-      case "linear":
-        return this.drawLinearControl();
-    }
-  };
-
-
-  /*
-    Renders the radial indicator for the currently blurred area
-   */
-
-  UIControlsFocus.prototype.drawRadialControl = function() {
-    var center, circle, circleProperties, controlPoint1, controlPoint2, halfDiff, radius, _i, _len, _results;
-    controlPoint1 = new Vector2().copy(this.operationOptions.controlPoint1Position).multiplyWithRect(this.canvas);
-    controlPoint2 = new Vector2().copy(this.operationOptions.controlPoint2Position).multiplyWithRect(this.canvas);
-    halfDiff = new Vector2().copy(controlPoint2).subtract(controlPoint1).divide(2);
-    radius = Math.sqrt(Math.pow(halfDiff.x, 2) + Math.pow(halfDiff.y, 2));
-    center = new Vector2().copy(controlPoint1).add(halfDiff);
-    circleProperties = [["#FFFFFF", 2 * (window.devicePixelRatio || 1), 0], ["rgba(0, 0, 0, 0.35)", 2 * (window.devicePixelRatio || 1), 2], ["rgba(0, 0, 0, 0.35)", 2 * (window.devicePixelRatio || 1), -1]];
-    _results = [];
-    for (_i = 0, _len = circleProperties.length; _i < _len; _i++) {
-      circle = circleProperties[_i];
-      this.context.beginPath();
-      this.context.arc(center.x, center.y, radius + circle[2], 0, 2 * Math.PI, false);
-      this.context.lineWidth = circle[1];
-      this.context.strokeStyle = circle[0];
-      this.context.stroke();
-      _results.push(this.context.closePath());
-    }
-    return _results;
-  };
-
-
-  /*
-    Renders the line indicators for the currently blurred area
-   */
-
-  UIControlsFocus.prototype.drawLinearControl = function() {
-    var controlPoint, controlPoint1, controlPoint2, controlPoints, diagonal, diff, line, lines, point, _i, _results;
-    controlPoint1 = new Vector2().copy(this.operationOptions.controlPoint1Position).multiplyWithRect(this.canvas);
-    controlPoint2 = new Vector2().copy(this.operationOptions.controlPoint2Position).multiplyWithRect(this.canvas);
-    controlPoints = [controlPoint1, controlPoint2];
-    diff = new Vector2().copy(controlPoint2).subtract(controlPoint1);
-    diagonal = Math.sqrt(Math.pow(this.canvas.width, 2) + Math.pow(this.canvas.height, 2));
-    _results = [];
-    for (point = _i = 0; _i <= 1; point = ++_i) {
-      controlPoint = controlPoints[point];
-      lines = [["#FFFFFF", 2 * (window.devicePixelRatio || 1), 0], ["rgba(0, 0, 0, 0.35)", 2 * (window.devicePixelRatio || 1), 2], ["rgba(0, 0, 0, 0.35)", 2 * (window.devicePixelRatio || 1), -1]];
-      _results.push((function() {
-        var _j, _len, _results1;
-        _results1 = [];
-        for (_j = 0, _len = lines.length; _j < _len; _j++) {
-          line = lines[_j];
-          this.context.beginPath();
-          this.context.moveTo(controlPoint.x + diff.y * diagonal + line[2], controlPoint.y - diff.x * diagonal + line[2]);
-          this.context.lineTo(controlPoint.x - diff.y * diagonal + line[2], controlPoint.y + diff.x * diagonal + line[2]);
-          this.context.strokeStyle = line[0];
-          this.context.lineWidth = line[1];
-          this.context.stroke();
-          _results1.push(this.context.closePath());
-        }
-        return _results1;
-      }).call(this));
-    }
-    return _results;
-  };
-
-  return UIControlsFocus;
-
-})(List);
-
-module.exports = UIControlsFocus;
-
-
-
-},{"../../math/vector2.coffee":3,"../../operations/focus/linear.coffee":50,"../../operations/focus/radial.coffee":51,"../../utils.coffee":75,"./base/list.coffee":61,"jquery":"jquery"}],68:[function(require,module,exports){
+},{"../../operations/filters/a15.coffee":7,"../../operations/filters/breeze.coffee":8,"../../operations/filters/bw.coffee":9,"../../operations/filters/bwhard.coffee":10,"../../operations/filters/celsius.coffee":11,"../../operations/filters/chest.coffee":12,"../../operations/filters/default.coffee":13,"../../operations/filters/fixie.coffee":15,"../../operations/filters/food.coffee":16,"../../operations/filters/fridge.coffee":17,"../../operations/filters/front.coffee":18,"../../operations/filters/glam.coffee":19,"../../operations/filters/gobblin.coffee":20,"../../operations/filters/k1.coffee":21,"../../operations/filters/k2.coffee":22,"../../operations/filters/k6.coffee":23,"../../operations/filters/kdynamic.coffee":24,"../../operations/filters/lenin.coffee":25,"../../operations/filters/lomo.coffee":26,"../../operations/filters/mellow.coffee":27,"../../operations/filters/morning.coffee":28,"../../operations/filters/orchid.coffee":29,"../../operations/filters/pola.coffee":30,"../../operations/filters/pola669.coffee":31,"../../operations/filters/quozi.coffee":43,"../../operations/filters/semired.coffee":44,"../../operations/filters/sunny.coffee":45,"../../operations/filters/texas.coffee":46,"../../operations/filters/x400.coffee":47,"../../utils.coffee":67,"./base/list.coffee":56,"jquery":"jquery"}],62:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -6115,7 +5178,7 @@ module.exports = UIControlsFrames;
 
 
 
-},{"../../math/rect.coffee":2,"../../math/vector2.coffee":3,"../../operations/frames.coffee":52,"../../utils.coffee":75,"./base/list.coffee":61,"jquery":"jquery"}],69:[function(require,module,exports){
+},{"../../math/rect.coffee":2,"../../math/vector2.coffee":3,"../../operations/frames.coffee":48,"../../utils.coffee":67,"./base/list.coffee":56,"jquery":"jquery"}],63:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -6179,7 +5242,7 @@ module.exports = UIControlsOrientation;
 
 
 
-},{"../../operations/orientation.coffee":54,"./base/list.coffee":61}],70:[function(require,module,exports){
+},{"../../operations/orientation.coffee":50,"./base/list.coffee":56}],64:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -6215,20 +5278,10 @@ UIControlsOverview = (function(_super) {
         controls: require("./filters.coffee"),
         tooltip: "Filters"
       }, {
-        name: "Stickers",
-        cssClass: "stickers",
-        controls: require("./stickers_control.coffee"),
-        tooltip: "Stickers"
-      }, {
         name: "Orientation",
         cssClass: "orientation",
         controls: require("./orientation.coffee"),
         tooltip: "Orientation"
-      }, {
-        name: "Focus",
-        cssClass: "focus",
-        controls: require("./focus.coffee"),
-        tooltip: "Focus"
       }, {
         name: "Crop",
         cssClass: "crop",
@@ -6254,12 +5307,6 @@ UIControlsOverview = (function(_super) {
         operation: require("../../operations/saturation.coffee"),
         tooltip: "Saturation"
       }, {
-        name: "Text",
-        cssClass: "text",
-        controls: require("./text.coffee"),
-        operation: require("../../operations/text.coffee"),
-        tooltip: "Text"
-      }, {
         name: "Frames",
         cssClass: "frames",
         controls: require("./frames.coffee"),
@@ -6267,6 +5314,68 @@ UIControlsOverview = (function(_super) {
         tooltip: "Frames"
       }
     ];
+
+    /*
+    @listItems = [
+                  {
+                    name: "Filters"
+                    cssClass: "filters"
+                    controls: require "./filters.coffee"
+                    tooltip: "Filters"
+                  }, {
+                    name: "Stickers"
+                    cssClass: "stickers"
+                    controls: require "./stickers_control.coffee"
+                    tooltip: "Stickers"
+                  }, {
+                    name: "Orientation"
+                    cssClass: "orientation"
+                    controls: require "./orientation.coffee"
+                    tooltip: "Orientation"
+                  }, {
+                    name: "Focus"
+                    cssClass: "focus"
+                    controls: require "./focus.coffee"
+                    tooltip: "Focus"
+                  }, {
+                    name: "Crop"
+                    cssClass: "crop"
+                    controls: require "./crop.coffee"
+                    operation: require "../../operations/crop.coffee"
+                    tooltip: "Crop"
+                  }, {
+                    name: "Brightness"
+                    cssClass: "brightness"
+                    controls: require "./brightness.coffee"
+                    operation: require "../../operations/brightness.coffee"
+                    tooltip: "Brightness"
+                  }, {
+                    name: "Contrast"
+                    cssClass: "contrast"
+                    controls: require "./contrast.coffee"
+                    operation: require "../../operations/contrast.coffee"
+                    tooltip: "Contrast"
+                  }, {
+                    name: "Saturation"
+                    cssClass: "saturation"
+                    controls: require "./saturation.coffee"
+                    operation: require "../../operations/saturation.coffee"
+                    tooltip: "Saturation"
+                  }, {
+                    name: "Text"
+                    cssClass: "text"
+                    controls: require "./text.coffee"
+                    operation: require "../../operations/text.coffee"
+                    tooltip: "Text"
+                  }, {
+                    name: "Frames"
+                    cssClass: "frames"
+                    controls: require "./frames.coffee"
+                    operation: require "../../operations/frames.coffee"
+                    tooltip: "Frames"
+                  }
+                ]
+     */
   }
 
   return UIControlsOverview;
@@ -6277,7 +5386,7 @@ module.exports = UIControlsOverview;
 
 
 
-},{"../../operations/brightness.coffee":4,"../../operations/contrast.coffee":5,"../../operations/crop.coffee":6,"../../operations/frames.coffee":52,"../../operations/saturation.coffee":55,"../../operations/text.coffee":56,"./base/list.coffee":61,"./brightness.coffee":63,"./contrast.coffee":64,"./crop.coffee":65,"./filters.coffee":66,"./focus.coffee":67,"./frames.coffee":68,"./orientation.coffee":69,"./saturation.coffee":71,"./stickers_control.coffee":72,"./text.coffee":73}],71:[function(require,module,exports){
+},{"../../operations/brightness.coffee":4,"../../operations/contrast.coffee":5,"../../operations/crop.coffee":6,"../../operations/frames.coffee":48,"../../operations/saturation.coffee":51,"./base/list.coffee":56,"./brightness.coffee":58,"./contrast.coffee":59,"./crop.coffee":60,"./filters.coffee":61,"./frames.coffee":62,"./orientation.coffee":63,"./saturation.coffee":65}],65:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -6312,659 +5421,7 @@ module.exports = UIControlsSaturation;
 
 
 
-},{"./base/slider.coffee":62}],72:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-var $, List, Rect, UIControlsStickers, Vector2,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-$ = require("jquery");
-
-List = require("./base/list.coffee");
-
-Vector2 = require("../../math/vector2.coffee");
-
-Rect = require("../../math/rect.coffee");
-
-UIControlsStickers = (function(_super) {
-  __extends(UIControlsStickers, _super);
-
-  UIControlsStickers.prototype.singleOperation = true;
-
-  UIControlsStickers.prototype.displayButtons = true;
-
-  UIControlsStickers.prototype.hasCanvasControls = true;
-
-  UIControlsStickers.prototype.cssClassIdentifier = "sticker";
-
-
-  /*
-    @param {imglyUtil} app
-    @param {imglyUtil.UI} ui
-   */
-
-  function UIControlsStickers(app, ui, controls) {
-    this.app = app;
-    this.ui = ui;
-    this.controls = controls;
-    UIControlsStickers.__super__.constructor.apply(this, arguments);
-    this.operationClass = require("../../operations/draw_image.coffee");
-    this.listItems = [
-      {
-        name: "Nerd glasses",
-        cssClass: "sticker-glasses-nerd",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-glasses-nerd.png"],
-        pixmap: "stickers/sticker-glasses-nerd.png",
-        tooltip: "Nerd glasses",
-        "default": true
-      }, {
-        name: "Normal glasses",
-        cssClass: "sticker-glasses-normal",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-glasses-normal.png"],
-        pixmap: "stickers/sticker-glasses-normal.png",
-        tooltip: "Normal glasses"
-      }, {
-        name: "Green shutter glasses",
-        cssClass: "sticker-glasses-shutter-green",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-glasses-shutter-green.png"],
-        pixmap: "stickers/sticker-glasses-shutter-green.png",
-        tooltip: "Green shutter glasses"
-      }, {
-        name: "Yellow shutter glasses",
-        cssClass: "sticker-glasses-shutter-yellow",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-glasses-shutter-yellow.png"],
-        pixmap: "stickers/sticker-glasses-shutter-yellow.png",
-        tooltip: "Yellow shutter glasses"
-      }, {
-        name: "Sunglasses",
-        cssClass: "sticker-glasses-sun",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-glasses-sun.png"],
-        pixmap: "stickers/sticker-glasses-sun.png",
-        tooltip: "Sunglasses"
-      }, {
-        name: "Cap",
-        cssClass: "sticker-hat-cap",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-hat-cap.png"],
-        pixmap: "stickers/sticker-hat-cap.png",
-        tooltip: "Cap"
-      }, {
-        name: "Party hat",
-        cssClass: "sticker-hat-party",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-hat-party.png"],
-        pixmap: "stickers/sticker-hat-party.png",
-        tooltip: "Party hat"
-      }, {
-        name: "Sheriff's' hat",
-        cssClass: "sticker-hat-sheriff",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-hat-sheriff.png"],
-        pixmap: "stickers/sticker-hat-sheriff.png",
-        tooltip: "Sheriff's hat'"
-      }, {
-        name: "Cylinder",
-        cssClass: "sticker-hat-cylinder",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-hat-cylinder.png"],
-        pixmap: "stickers/sticker-hat-cylinder.png",
-        tooltip: "Cylinder"
-      }, {
-        name: "Heart",
-        cssClass: "sticker-heart",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-heart.png"],
-        pixmap: "stickers/sticker-heart.png",
-        tooltip: "Heart"
-      }, {
-        name: "Mustache 1",
-        cssClass: "sticker-mustache1",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-mustache1.png"],
-        pixmap: "stickers/sticker-mustache1.png",
-        tooltip: "Mustache 1"
-      }, {
-        name: "Mustache 2",
-        cssClass: "sticker-mustache2",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-mustache2.png"],
-        pixmap: "stickers/sticker-mustache2.png",
-        tooltip: "Mustache 2"
-      }, {
-        name: "Mustache 3",
-        cssClass: "sticker-mustache3",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-mustache3.png"],
-        pixmap: "stickers/sticker-mustache3.png",
-        tooltip: "Mustache 3"
-      }, {
-        name: "Long mustache",
-        cssClass: "sticker-mustache-long",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-mustache-long.png"],
-        pixmap: "stickers/sticker-mustache-long.png",
-        tooltip: "Long mustache"
-      }, {
-        name: "Pipe",
-        cssClass: "sticker-pipe",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-pipe.png"],
-        pixmap: "stickers/sticker-pipe.png",
-        tooltip: "Pipe"
-      }, {
-        name: "Snowflake",
-        cssClass: "sticker-snowflake",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-snowflake.png"],
-        pixmap: "stickers/sticker-snowflake.png",
-        tooltip: "Snowflake"
-      }, {
-        name: "Star",
-        cssClass: "sticker-star",
-        method: "useSticker",
-        "arguments": ["stickers/sticker-star.png"],
-        pixmap: "stickers/sticker-star.png",
-        tooltip: "Star"
-      }
-    ];
-  }
-
-
-  /*
-    @param {jQuery.Object} canvasControlsContainer
-   */
-
-  UIControlsStickers.prototype.hasCanvasControls = true;
-
-  UIControlsStickers.prototype.setupCanvasControls = function(canvasControlsContainer) {
-    this.canvasControlsContainer = canvasControlsContainer;
-    this.stickerContainer = $("<div>").addClass(ImglyKit.classPrefix + "canvas-sticker-container").appendTo(this.canvasControlsContainer);
-    this.crosshair = $("<div>").addClass(ImglyKit.classPrefix + "canvas-crosshair " + ImglyKit.classPrefix + "canvas-sticker-crosshair").appendTo(this.stickerContainer);
-    this.resizeKnob = $("<div>").addClass(ImglyKit.classPrefix + "canvas-knob").css({
-      left: 120
-    }).appendTo(this.stickerContainer);
-    this.handleCrosshair();
-    return this.handleResizeKnob();
-  };
-
-
-  /*
-    Move the sticker around by dragging the crosshair
-   */
-
-  UIControlsStickers.prototype.handleCrosshair = function() {
-    var canvasRect, maxContainerPosition, minContainerPosition, minimumHeight, minimumWidth;
-    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
-    minimumWidth = 0;
-    minimumHeight = 0;
-    minContainerPosition = new Vector2(0, -20);
-    maxContainerPosition = new Vector2(canvasRect.width - minimumWidth, canvasRect.height - minimumHeight);
-    return this.crosshair.mousedown((function(_this) {
-      return function(e) {
-        var currentContainerPosition, currentMousePosition, initialContainerPosition, initialMousePosition;
-        initialMousePosition = new Vector2(e.clientX, e.clientY);
-        currentMousePosition = new Vector2().copy(initialMousePosition);
-        initialContainerPosition = new Vector2(_this.stickerContainer.position().left, _this.stickerContainer.position().top);
-        currentContainerPosition = new Vector2().copy(initialContainerPosition);
-        $(document).mousemove(function(e) {
-          var mousePositionDifference;
-          currentMousePosition.set(e.clientX, e.clientY);
-          mousePositionDifference = new Vector2().copy(currentMousePosition).subtract(initialMousePosition);
-          currentContainerPosition.copy(initialContainerPosition).add(mousePositionDifference).clamp(minContainerPosition, maxContainerPosition);
-          _this.stickerContainer.css({
-            left: currentContainerPosition.x,
-            top: currentContainerPosition.y,
-            width: _this.operationOptions.stickerImageWidth,
-            height: _this.operationOptions.stickerImageHeight
-          });
-          _this.resizeKnob.css({
-            left: _this.operationOptions.scale
-          });
-          if (_this.stickerContainer.position().left + _this.operationOptions.scale > _this.canvasControlsContainer.width() + 20) {
-            _this.operationOptions.scale = _this.canvasControlsContainer.width() - _this.stickerContainer.position().left + 20;
-          }
-          _this.operationOptions.stickerPosition = new Vector2().copy(currentContainerPosition);
-          _this.operationOptions.widthRange = _this.canvasControlsContainer.width();
-          _this.operationOptions.heightRange = _this.canvasControlsContainer.height();
-          _this.operation.setOptions(_this.operationOptions);
-          return _this.emit("renderPreview");
-        });
-        return $(document).mouseup(function() {
-          $(document).off("mousemove");
-          return $(document).off("mouseup");
-        });
-      };
-    })(this));
-  };
-
-
-  /*
-    Handles the dragging of resize knob
-   */
-
-  UIControlsStickers.prototype.handleResizeKnob = function() {
-    var canvasRect, maxContainerPosition, minContainerPosition;
-    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
-    minContainerPosition = new Vector2(20, 0);
-    maxContainerPosition = new Vector2(canvasRect.width, canvasRect.height);
-    return this.resizeKnob.mousedown((function(_this) {
-      return function(e) {
-        var initialContainerPosition, initialKnobPosition, initialMousePosition;
-        initialMousePosition = new Vector2(e.clientX, e.clientY);
-        initialKnobPosition = new Vector2(_this.resizeKnob.position().left, _this.resizeKnob.position().top);
-        initialContainerPosition = new Vector2(_this.stickerContainer.position().left, _this.stickerContainer.position().top);
-        $(document).mouseup(function(e) {
-          $(document).off("mouseup");
-          return $(document).off("mousemove");
-        });
-        return $(document).mousemove(function(e) {
-          var ajdustedMaxContainerPosition, currentKnobPosition, currentMousePosition, mousePositionDifference;
-          currentMousePosition = new Vector2(e.clientX, e.clientY);
-          mousePositionDifference = new Vector2().copy(currentMousePosition).subtract(initialMousePosition);
-          ajdustedMaxContainerPosition = new Vector2().copy(maxContainerPosition).subtract(new Vector2(_this.stickerContainer.position().left - 20, 0));
-          currentKnobPosition = new Vector2().copy(initialKnobPosition).add(mousePositionDifference).clamp(minContainerPosition, ajdustedMaxContainerPosition);
-          _this.resizeKnob.css({
-            left: currentKnobPosition.x
-          });
-          _this.operationOptions.scale = _this.resizeKnob.position().left;
-          _this.operation.setOptions(_this.operationOptions);
-          return _this.emit("renderPreview");
-        });
-      };
-    })(this));
-  };
-
-  return UIControlsStickers;
-
-})(List);
-
-module.exports = UIControlsStickers;
-
-
-
-},{"../../math/rect.coffee":2,"../../math/vector2.coffee":3,"../../operations/draw_image.coffee":7,"./base/list.coffee":61,"jquery":"jquery"}],73:[function(require,module,exports){
-
-/*
-  ImglyKit
-  Copyright (c) 2013-2014 img.ly
- */
-var $, List, Rect, UIControlsText, Vector2,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-$ = require("jquery");
-
-List = require("./base/list.coffee");
-
-Vector2 = require("../../math/vector2.coffee");
-
-Rect = require("../../math/rect.coffee");
-
-require("../../vendor/spectrum")(window, $);
-
-UIControlsText = (function(_super) {
-  __extends(UIControlsText, _super);
-
-  UIControlsText.prototype.displayButtons = true;
-
-  UIControlsText.prototype.singleOperation = true;
-
-  UIControlsText.prototype.hasCanvasControls = true;
-
-  UIControlsText.prototype.cssClassIdentifier = "text";
-
-
-  /*
-    @param {imglyUtil} app
-    @param {imglyUtil.UI} ui
-   */
-
-  function UIControlsText(app, ui, controls) {
-    var additionalFont, _i, _len, _ref;
-    this.app = app;
-    this.ui = ui;
-    this.controls = controls;
-    this.autoResizeTextInput = __bind(this.autoResizeTextInput, this);
-    this.onFontsizeSmallerClick = __bind(this.onFontsizeSmallerClick, this);
-    this.onFontsizeBiggerClick = __bind(this.onFontsizeBiggerClick, this);
-    UIControlsText.__super__.constructor.apply(this, arguments);
-    this.initialized = false;
-    this.fontResizePerClick = 3;
-    this.operationClass = require("../../operations/text.coffee");
-    this.listItems = [
-      {
-        name: "Helvetica",
-        method: "setFont",
-        cssClass: "helvetica",
-        "arguments": ["Helvetica"],
-        tooltip: "Helvetica",
-        "default": true
-      }, {
-        name: "Lucida Grande",
-        method: "setFont",
-        cssClass: "lucida-grande",
-        "arguments": ["Lucida Grande"],
-        tooltip: "Lucida Grande"
-      }, {
-        name: "Times New Roman",
-        method: "setFont",
-        cssClass: "times-new-roman",
-        "arguments": ["Times New Roman"],
-        tooltip: "Times New Roman"
-      }
-    ];
-    if (this.app.options.additionalFonts != null) {
-      _ref = this.app.options.additionalFonts;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        additionalFont = _ref[_i];
-        this.listItems.push({
-          name: additionalFont.name,
-          method: "setFont",
-          cssClass: additionalFont.cssClass,
-          "arguments": [additionalFont.name]
-        });
-      }
-    }
-  }
-
-
-  /*
-    Create controls DOM tree
-   */
-
-  UIControlsText.prototype.createList = function() {
-    UIControlsText.__super__.createList.apply(this, arguments);
-
-    /*
-      Color control
-     */
-    this.textColorControl = $("<div>").addClass(ImglyKit.classPrefix + "controls-text-color-button " + ImglyKit.classPrefix + "controls-button-right").appendTo(this.wrapper);
-    this.textColorPreview = $("<div>").addClass(ImglyKit.classPrefix + "controls-text-color").appendTo(this.textColorControl);
-
-    /*
-      Background color control
-     */
-    this.backgroundColorControl = $("<div>").addClass(ImglyKit.classPrefix + "controls-background-color-button " + ImglyKit.classPrefix + "controls-button-right").appendTo(this.wrapper);
-    this.backgroundColorPreview = $("<div>").addClass(ImglyKit.classPrefix + "controls-background-color").appendTo(this.backgroundColorControl);
-    this.list.css("margin-right", this.controls.getHeight() * 3);
-    return this.handleColorsControl();
-  };
-
-
-  /*
-    Handle the colors control
-   */
-
-  UIControlsText.prototype.handleColorsControl = function() {
-    var defaultBackgroundColor, defaultForegroundColor;
-    defaultForegroundColor = "rgba(255, 255, 255, 1.0)";
-    defaultBackgroundColor = "rgba(0, 0, 0, 0.5)";
-    this.textColorControl.spectrum({
-      color: defaultForegroundColor,
-      showAlpha: true,
-      showPalette: true,
-      showSelectionPalette: true,
-      palette: [],
-      showButtons: false,
-      localStorageKey: "imgly.palette",
-      move: (function(_this) {
-        return function(color) {
-          var colorComponents, rgbaString;
-          colorComponents = color.toRgb();
-          rgbaString = "rgba(" + colorComponents.r + "," + colorComponents.g + "," + colorComponents.b + "," + colorComponents.a + ")";
-          _this.textColorPreview.css({
-            backgroundColor: rgbaString
-          });
-          _this.operationOptions.color = rgbaString;
-          return _this.operation.setOptions(_this.operationOptions);
-        };
-      })(this)
-    });
-    this.backgroundColorControl.spectrum({
-      color: defaultBackgroundColor,
-      showAlpha: true,
-      showPalette: true,
-      showSelectionPalette: true,
-      palette: [],
-      showButtons: false,
-      localStorageKey: "imgly.palette",
-      move: (function(_this) {
-        return function(color) {
-          var colorComponents, rgbaString;
-          colorComponents = color.toRgb();
-          rgbaString = "rgba(" + colorComponents.r + "," + colorComponents.g + "," + colorComponents.b + "," + colorComponents.a + ")";
-          _this.backgroundColorPreview.css({
-            backgroundColor: rgbaString
-          });
-          _this.textContainer.css({
-            backgroundColor: rgbaString
-          });
-          _this.operationOptions.backgroundColor = rgbaString;
-          return _this.operation.setOptions(_this.operationOptions);
-        };
-      })(this)
-    });
-    this.textColorPreview.css({
-      backgroundColor: defaultForegroundColor
-    });
-    this.backgroundColorPreview.css({
-      backgroundColor: defaultBackgroundColor
-    });
-    this.textContainer.css({
-      backgroundColor: defaultBackgroundColor
-    });
-  };
-
-
-  /*
-    @param {jQuery.Object} canvasControlsContainer
-   */
-
-  UIControlsText.prototype.setupCanvasControls = function(canvasControlsContainer) {
-    var control, _i, _len, _ref;
-    this.canvasControlsContainer = canvasControlsContainer;
-    this.textContainer = $("<div>").addClass(ImglyKit.classPrefix + "canvas-text-container").appendTo(this.canvasControlsContainer);
-    this.fontsizeButtonsContainer = $("<div>").addClass(ImglyKit.classPrefix + "canvas-text-size-container").appendTo(this.textContainer);
-    _ref = ["Smaller", "Bigger"];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      control = _ref[_i];
-      this["fontsize" + control + "Button"] = $("<div>").addClass(ImglyKit.classPrefix + "canvas-text-size-" + control.toLowerCase()).appendTo(this.fontsizeButtonsContainer);
-      this["fontsize" + control + "Button"].on("click", this["onFontsize" + control + "Click"]);
-    }
-    this.crosshair = $("<div>").addClass(ImglyKit.classPrefix + "canvas-crosshair " + ImglyKit.classPrefix + "canvas-text-crosshair").appendTo(this.textContainer);
-    this.handleCrosshair();
-    this.textInput = $("<textarea>").addClass(ImglyKit.classPrefix + "canvas-text-input").appendTo(this.textContainer).attr({
-      placeholder: "Text"
-    }).focus();
-    this.textInputDummy = $("<div>").addClass(ImglyKit.classPrefix + "canvas-text-input-dummy").appendTo(this.canvasControlsContainer);
-    this.textInput.keyup((function(_this) {
-      return function(e) {
-        _this.operationOptions.text = _this.textInput.val();
-        _this.operation.setOptions(_this.operationOptions);
-        return _this.autoResizeTextInput();
-      };
-    })(this));
-    return after(100, (function(_this) {
-      return function() {
-        return _this.autoResizeTextInput();
-      };
-    })(this));
-  };
-
-
-  /*
-    Gets called as soon as the user clicks the button
-    to increase font size
-   */
-
-  UIControlsText.prototype.onFontsizeBiggerClick = function(e) {
-    var canvasHeight, newFontSize, resizeFactor;
-    canvasHeight = this.canvasControlsContainer.height();
-    resizeFactor = this.fontResizePerClick / canvasHeight;
-    newFontSize = Math.min(this.operationOptions.fontSize + resizeFactor, 1);
-    this.operationOptions.fontSize = newFontSize;
-    this.operation.setOptions(this.operationOptions);
-    return this.updateCanvasControls();
-  };
-
-
-  /*
-    Gets called as soon as the user clicks the button
-    to reduce font size
-   */
-
-  UIControlsText.prototype.onFontsizeSmallerClick = function(e) {
-    var canvasHeight, newFontSize, resizeFactor;
-    canvasHeight = this.canvasControlsContainer.height();
-    resizeFactor = this.fontResizePerClick / canvasHeight;
-    newFontSize = Math.max(this.operationOptions.fontSize - resizeFactor, 0.05);
-    this.operationOptions.fontSize = newFontSize;
-    this.operation.setOptions(this.operationOptions);
-    return this.updateCanvasControls();
-  };
-
-
-  /*
-    Update input position
-   */
-
-  UIControlsText.prototype.updateCanvasControls = function() {
-    var canvasHeight, canvasWidth;
-    canvasWidth = this.canvasControlsContainer.width();
-    canvasHeight = this.canvasControlsContainer.height();
-    this.textContainer.css({
-      left: this.operationOptions.start.x * canvasWidth,
-      top: this.operationOptions.start.y * canvasHeight
-    });
-    return this.autoResizeTextInput();
-  };
-
-
-  /*
-    Move the text input around by dragging the crosshair
-   */
-
-  UIControlsText.prototype.handleCrosshair = function() {
-    var canvasRect, maxContainerPosition, minContainerPosition, minimumHeight, minimumWidth;
-    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
-    minimumWidth = 50;
-    minimumHeight = 50;
-    minContainerPosition = new Vector2(0, 0);
-    maxContainerPosition = new Vector2(canvasRect.width - minimumWidth, canvasRect.height - minimumHeight);
-    return this.crosshair.mousedown((function(_this) {
-      return function(e) {
-        var currentContainerPosition, currentMousePosition, initialContainerPosition, initialMousePosition;
-        initialMousePosition = new Vector2(e.clientX, e.clientY);
-        currentMousePosition = new Vector2().copy(initialMousePosition);
-        initialContainerPosition = new Vector2(_this.textContainer.position().left, _this.textContainer.position().top);
-        currentContainerPosition = new Vector2().copy(initialContainerPosition);
-        $(document).mousemove(function(e) {
-          var mousePositionDifference;
-          currentMousePosition.set(e.clientX, e.clientY);
-          mousePositionDifference = new Vector2().copy(currentMousePosition).subtract(initialMousePosition);
-          currentContainerPosition.copy(initialContainerPosition).add(mousePositionDifference).clamp(minContainerPosition, maxContainerPosition);
-          _this.textContainer.css({
-            left: currentContainerPosition.x,
-            top: currentContainerPosition.y
-          });
-          _this.operationOptions.start = new Vector2().copy(currentContainerPosition).divideByRect(canvasRect);
-          _this.operation.setOptions(_this.operationOptions);
-          return _this.updateCanvasControls();
-        });
-        return $(document).mouseup(function() {
-          $(document).off("mousemove");
-          return $(document).off("mouseup");
-        });
-      };
-    })(this));
-  };
-
-
-  /*
-    Automatically resizes the text input
-   */
-
-  UIControlsText.prototype.autoResizeTextInput = function() {
-    var canvasHeight, canvasWidth, comfortZoneX, comfortZoneY, fontSize, inputWidth, maxHeight, maxWidth, paddingX, paddingY, text;
-    canvasWidth = this.canvasControlsContainer.width();
-    canvasHeight = this.canvasControlsContainer.height();
-    inputWidth = this.textInput.width();
-    fontSize = parseInt(this.textInput.css("font-size"));
-    comfortZoneX = fontSize * 3;
-    comfortZoneY = fontSize * 2;
-    paddingX = parseInt(this.textInputDummy.css("padding-left")) + parseInt(this.textInputDummy.css("padding-right"));
-    paddingY = parseInt(this.textInputDummy.css("padding-top")) + parseInt(this.textInputDummy.css("padding-bottom"));
-    this.operationOptions.paddingLeft = (parseInt(this.textInputDummy.css("padding-left")) + parseInt(this.textContainer.css("border-left-width"))) / canvasWidth;
-    this.operationOptions.paddingTop = (parseInt(this.textInputDummy.css("padding-top")) + parseInt(this.textContainer.css("border-top-width"))) / canvasHeight;
-    maxWidth = canvasWidth - this.operationOptions.start.x * canvasWidth;
-    maxHeight = canvasHeight - this.operationOptions.start.y * canvasHeight;
-    text = this.textInput.val();
-    if (text.match(/\n$/i)) {
-      text = text + "&nbsp;";
-    }
-    text = text.replace(/\n/g, "<br />");
-    if (!text) {
-      text = "&nbsp;";
-    }
-    this.textInputDummy.css({
-      width: "auto",
-      height: "auto"
-    }).html(text);
-    if (this.textInputDummy.width() >= maxWidth) {
-      this.textInputDummy.css({
-        width: maxWidth
-      });
-      comfortZoneX = 0;
-    }
-    if (this.textInputDummy.height() >= maxHeight) {
-      this.textInputDummy.css({
-        height: maxHeight
-      });
-      comfortZoneY = 0;
-    }
-    return this.textInput.css({
-      width: Math.min(this.textInputDummy.width() + comfortZoneX, maxWidth),
-      height: Math.min(this.textInputDummy.height() + comfortZoneY, maxHeight)
-    });
-  };
-
-
-  /*
-    @params {Object} options
-   */
-
-  UIControlsText.prototype.updateOptions = function(operationOptions) {
-    var canvasHeight;
-    this.operationOptions = operationOptions;
-    canvasHeight = this.canvasControlsContainer.height();
-    $([this.textInput.get(0), this.textInputDummy.get(0)]).css({
-      fontSize: this.operationOptions.fontSize * canvasHeight,
-      color: this.operationOptions.color,
-      fontFamily: this.operationOptions.font,
-      lineHeight: this.operationOptions.lineHeight
-    });
-    return this.updateCanvasControls();
-  };
-
-  return UIControlsText;
-
-})(List);
-
-module.exports = UIControlsText;
-
-
-
-},{"../../math/rect.coffee":2,"../../math/vector2.coffee":3,"../../operations/text.coffee":56,"../../vendor/spectrum":79,"./base/list.coffee":61,"jquery":"jquery"}],74:[function(require,module,exports){
+},{"./base/slider.coffee":57}],66:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -7056,7 +5513,7 @@ module.exports = UI;
 
 
 
-},{"./canvas.coffee":58,"./controls.coffee":59,"events":80}],75:[function(require,module,exports){
+},{"./canvas.coffee":53,"./controls.coffee":54,"events":71}],67:[function(require,module,exports){
 
 /*
   ImglyKit
@@ -7393,7 +5850,7 @@ module.exports = Utils;
 
 
 
-},{"./vendor/resize":78}],76:[function(require,module,exports){
+},{"./vendor/resize":70}],68:[function(require,module,exports){
 var Perf;
 
 Perf = (function() {
@@ -7462,7 +5919,7 @@ module.exports = Perf;
 
 
 
-},{}],77:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 
 /*
   Common interface for promises.
@@ -7516,7 +5973,7 @@ module.exports = Queue;
 
 
 
-},{"jquery":"jquery","q":"q"}],78:[function(require,module,exports){
+},{"jquery":"jquery","q":"q"}],70:[function(require,module,exports){
 
 //JavaScript Image Resizer (c) 2012 - Grant Galitz
 var scripts = document.getElementsByTagName("script");
@@ -7970,11 +6427,7 @@ Resize.prototype.generateUint8Buffer = function (bufferLength) {
 }
 module.exports = Resize;
 
-},{}],79:[function(require,module,exports){
-module.exports = function(window,$,undefined){"use strict";function paletteTemplate(p,color,className,opts){for(var html=[],i=0;i<p.length;i++){var current=p[i];if(current){var tiny=tinycolor(current),c=tiny.toHsl().l<.5?"sp-thumb-el sp-thumb-dark":"sp-thumb-el sp-thumb-light";c+=tinycolor.equals(color,current)?" sp-thumb-active":"";var formattedString=tiny.toString(opts.preferredFormat||"rgb"),swatchStyle=rgbaSupport?"background-color:"+tiny.toRgbString():"filter:"+tiny.toFilter();html.push('<span title="'+formattedString+'" data-color="'+tiny.toRgbString()+'" class="'+c+'"><span class="sp-thumb-inner" style="'+swatchStyle+';" /></span>')}else{var cls="sp-clear-display";html.push($("<div />").append($('<span data-color="" style="background-color:transparent;" class="'+cls+'"></span>').attr("title",opts.noColorSelectedText)).html())}}return"<div class='sp-cf "+className+"'>"+html.join("")+"</div>"}function hideAll(){for(var i=0;i<spectrums.length;i++)spectrums[i]&&spectrums[i].hide()}function instanceOptions(o,callbackContext){var opts=$.extend({},defaultOpts,o);return opts.callbacks={move:bind(opts.move,callbackContext),change:bind(opts.change,callbackContext),show:bind(opts.show,callbackContext),hide:bind(opts.hide,callbackContext),beforeShow:bind(opts.beforeShow,callbackContext)},opts}function spectrum(element,o){function applyOptions(){if(opts.showPaletteOnly&&(opts.showPalette=!0),toggleButton.text(opts.showPaletteOnly?opts.togglePaletteMoreText:opts.togglePaletteLessText),opts.palette){palette=opts.palette.slice(0),paletteArray=$.isArray(palette[0])?palette:[palette],paletteLookup={};for(var i=0;i<paletteArray.length;i++)for(var j=0;j<paletteArray[i].length;j++){var rgb=tinycolor(paletteArray[i][j]).toRgbString();paletteLookup[rgb]=!0}}container.toggleClass("sp-flat",flat),container.toggleClass("sp-input-disabled",!opts.showInput),container.toggleClass("sp-alpha-enabled",opts.showAlpha),container.toggleClass("sp-clear-enabled",allowEmpty),container.toggleClass("sp-buttons-disabled",!opts.showButtons),container.toggleClass("sp-palette-buttons-disabled",!opts.togglePaletteOnly),container.toggleClass("sp-palette-disabled",!opts.showPalette),container.toggleClass("sp-palette-only",opts.showPaletteOnly),container.toggleClass("sp-initial-disabled",!opts.showInitial),container.addClass(opts.className).addClass(opts.containerClassName),reflow()}function initialize(){function paletteElementClick(e){return e.data&&e.data.ignore?(set($(e.target).closest(".sp-thumb-el").data("color")),move()):(set($(e.target).closest(".sp-thumb-el").data("color")),move(),updateOriginalInput(!0),opts.hideAfterPaletteSelect&&hide()),!1}if(IE&&container.find("*:not(input)").attr("unselectable","on"),applyOptions(),shouldReplace&&boundElement.after(replacer).hide(),allowEmpty||clearButton.hide(),flat)boundElement.after(container).hide();else{var appendTo="parent"===opts.appendTo?boundElement.parent():$(opts.appendTo);1!==appendTo.length&&(appendTo=$("body")),appendTo.append(container)}updateSelectionPaletteFromStorage(),offsetElement.bind("click.spectrum touchstart.spectrum",function(e){disabled||toggle(),e.stopPropagation(),$(e.target).is("input")||e.preventDefault()}),(boundElement.is(":disabled")||opts.disabled===!0)&&disable(),container.click(stopPropagation),textInput.change(setFromTextInput),textInput.bind("paste",function(){setTimeout(setFromTextInput,1)}),textInput.keydown(function(e){13==e.keyCode&&setFromTextInput()}),cancelButton.text(opts.cancelText),cancelButton.bind("click.spectrum",function(e){e.stopPropagation(),e.preventDefault(),hide("cancel")}),clearButton.attr("title",opts.clearText),clearButton.bind("click.spectrum",function(e){e.stopPropagation(),e.preventDefault(),isEmpty=!0,move(),flat&&updateOriginalInput(!0)}),chooseButton.text(opts.chooseText),chooseButton.bind("click.spectrum",function(e){e.stopPropagation(),e.preventDefault(),isValid()&&(updateOriginalInput(!0),hide())}),toggleButton.text(opts.showPaletteOnly?opts.togglePaletteMoreText:opts.togglePaletteLessText),toggleButton.bind("click.spectrum",function(e){e.stopPropagation(),e.preventDefault(),opts.showPaletteOnly=!opts.showPaletteOnly,opts.showPaletteOnly||flat||container.css("left","-="+(pickerContainer.outerWidth(!0)+5)),applyOptions()}),draggable(alphaSlider,function(dragX,dragY,e){currentAlpha=dragX/alphaWidth,isEmpty=!1,e.shiftKey&&(currentAlpha=Math.round(10*currentAlpha)/10),move()},dragStart,dragStop),draggable(slider,function(dragX,dragY){currentHue=parseFloat(dragY/slideHeight),isEmpty=!1,opts.showAlpha||(currentAlpha=1),move()},dragStart,dragStop),draggable(dragger,function(dragX,dragY,e){if(e.shiftKey){if(!shiftMovementDirection){var oldDragX=currentSaturation*dragWidth,oldDragY=dragHeight-currentValue*dragHeight,furtherFromX=Math.abs(dragX-oldDragX)>Math.abs(dragY-oldDragY);shiftMovementDirection=furtherFromX?"x":"y"}}else shiftMovementDirection=null;var setSaturation=!shiftMovementDirection||"x"===shiftMovementDirection,setValue=!shiftMovementDirection||"y"===shiftMovementDirection;setSaturation&&(currentSaturation=parseFloat(dragX/dragWidth)),setValue&&(currentValue=parseFloat((dragHeight-dragY)/dragHeight)),isEmpty=!1,opts.showAlpha||(currentAlpha=1),move()},dragStart,dragStop),initialColor?(set(initialColor),updateUI(),currentPreferredFormat=preferredFormat||tinycolor(initialColor).format,addColorToSelectionPalette(initialColor)):updateUI(),flat&&show();var paletteEvent=IE?"mousedown.spectrum":"click.spectrum touchstart.spectrum";paletteContainer.delegate(".sp-thumb-el",paletteEvent,paletteElementClick),initialColorContainer.delegate(".sp-thumb-el:nth-child(1)",paletteEvent,{ignore:!0},paletteElementClick)}function updateSelectionPaletteFromStorage(){if(localStorageKey&&window.localStorage){try{var oldPalette=window.localStorage[localStorageKey].split(",#");oldPalette.length>1&&(delete window.localStorage[localStorageKey],$.each(oldPalette,function(i,c){addColorToSelectionPalette(c)}))}catch(e){}try{selectionPalette=window.localStorage[localStorageKey].split(";")}catch(e){}}}function addColorToSelectionPalette(color){if(showSelectionPalette){var rgb=tinycolor(color).toRgbString();if(!paletteLookup[rgb]&&-1===$.inArray(rgb,selectionPalette))for(selectionPalette.push(rgb);selectionPalette.length>maxSelectionSize;)selectionPalette.shift();if(localStorageKey&&window.localStorage)try{window.localStorage[localStorageKey]=selectionPalette.join(";")}catch(e){}}}function getUniqueSelectionPalette(){var unique=[];if(opts.showPalette)for(var i=0;i<selectionPalette.length;i++){var rgb=tinycolor(selectionPalette[i]).toRgbString();paletteLookup[rgb]||unique.push(selectionPalette[i])}return unique.reverse().slice(0,opts.maxSelectionSize)}function drawPalette(){var currentColor=get(),html=$.map(paletteArray,function(palette,i){return paletteTemplate(palette,currentColor,"sp-palette-row sp-palette-row-"+i,opts)});updateSelectionPaletteFromStorage(),selectionPalette&&html.push(paletteTemplate(getUniqueSelectionPalette(),currentColor,"sp-palette-row sp-palette-row-selection",opts)),paletteContainer.html(html.join(""))}function drawInitial(){if(opts.showInitial){var initial=colorOnShow,current=get();initialColorContainer.html(paletteTemplate([initial,current],current,"sp-palette-row-initial",opts))}}function dragStart(){(0>=dragHeight||0>=dragWidth||0>=slideHeight)&&reflow(),container.addClass(draggingClass),shiftMovementDirection=null,boundElement.trigger("dragstart.spectrum",[get()])}function dragStop(){container.removeClass(draggingClass),boundElement.trigger("dragstop.spectrum",[get()])}function setFromTextInput(){var value=textInput.val();if(null!==value&&""!==value||!allowEmpty){var tiny=tinycolor(value);tiny.isValid()?(set(tiny),updateOriginalInput(!0)):textInput.addClass("sp-validation-error")}else set(null),updateOriginalInput(!0)}function toggle(){visible?hide():show()}function show(){var event=$.Event("beforeShow.spectrum");return visible?void reflow():(boundElement.trigger(event,[get()]),void(callbacks.beforeShow(get())===!1||event.isDefaultPrevented()||(hideAll(),visible=!0,$(doc).bind("click.spectrum",hide),$(window).bind("resize.spectrum",resize),replacer.addClass("sp-active"),container.removeClass("sp-hidden"),reflow(),updateUI(),colorOnShow=get(),drawInitial(),callbacks.show(colorOnShow),boundElement.trigger("show.spectrum",[colorOnShow]))))}function hide(e){if((!e||"click"!=e.type||2!=e.button)&&visible&&!flat){visible=!1,$(doc).unbind("click.spectrum",hide),$(window).unbind("resize.spectrum",resize),replacer.removeClass("sp-active"),container.addClass("sp-hidden");var colorHasChanged=!tinycolor.equals(get(),colorOnShow);colorHasChanged&&(clickoutFiresChange&&"cancel"!==e?updateOriginalInput(!0):revert()),callbacks.hide(get()),boundElement.trigger("hide.spectrum",[get()])}}function revert(){set(colorOnShow,!0)}function set(color,ignoreFormatChange){if(tinycolor.equals(color,get()))return void updateUI();var newColor,newHsv;!color&&allowEmpty?isEmpty=!0:(isEmpty=!1,newColor=tinycolor(color),newHsv=newColor.toHsv(),currentHue=newHsv.h%360/360,currentSaturation=newHsv.s,currentValue=newHsv.v,currentAlpha=newHsv.a),updateUI(),newColor&&newColor.isValid()&&!ignoreFormatChange&&(currentPreferredFormat=preferredFormat||newColor.getFormat())}function get(opts){return opts=opts||{},allowEmpty&&isEmpty?null:tinycolor.fromRatio({h:currentHue,s:currentSaturation,v:currentValue,a:Math.round(100*currentAlpha)/100},{format:opts.format||currentPreferredFormat})}function isValid(){return!textInput.hasClass("sp-validation-error")}function move(){updateUI(),callbacks.move(get()),boundElement.trigger("move.spectrum",[get()])}function updateUI(){textInput.removeClass("sp-validation-error"),updateHelperLocations();var flatColor=tinycolor.fromRatio({h:currentHue,s:1,v:1});dragger.css("background-color",flatColor.toHexString());var format=currentPreferredFormat;1>currentAlpha&&(0!==currentAlpha||"name"!==format)&&("hex"===format||"hex3"===format||"hex6"===format||"name"===format)&&(format="rgb");var realColor=get({format:format}),displayColor="";if(previewElement.removeClass("sp-clear-display"),previewElement.css("background-color","transparent"),!realColor&&allowEmpty)previewElement.addClass("sp-clear-display");else{var realHex=realColor.toHexString(),realRgb=realColor.toRgbString();if(rgbaSupport||1===realColor.alpha?previewElement.css("background-color",realRgb):(previewElement.css("background-color","transparent"),previewElement.css("filter",realColor.toFilter())),opts.showAlpha){var rgb=realColor.toRgb();rgb.a=0;var realAlpha=tinycolor(rgb).toRgbString(),gradient="linear-gradient(left, "+realAlpha+", "+realHex+")";IE?alphaSliderInner.css("filter",tinycolor(realAlpha).toFilter({gradientType:1},realHex)):(alphaSliderInner.css("background","-webkit-"+gradient),alphaSliderInner.css("background","-moz-"+gradient),alphaSliderInner.css("background","-ms-"+gradient),alphaSliderInner.css("background","linear-gradient(to right, "+realAlpha+", "+realHex+")"))}displayColor=realColor.toString(format)}opts.showInput&&textInput.val(displayColor),opts.showPalette&&drawPalette(),drawInitial()}function updateHelperLocations(){var s=currentSaturation,v=currentValue;if(allowEmpty&&isEmpty)alphaSlideHelper.hide(),slideHelper.hide(),dragHelper.hide();else{alphaSlideHelper.show(),slideHelper.show(),dragHelper.show();var dragX=s*dragWidth,dragY=dragHeight-v*dragHeight;dragX=Math.max(-dragHelperHeight,Math.min(dragWidth-dragHelperHeight,dragX-dragHelperHeight)),dragY=Math.max(-dragHelperHeight,Math.min(dragHeight-dragHelperHeight,dragY-dragHelperHeight)),dragHelper.css({top:dragY+"px",left:dragX+"px"});var alphaX=currentAlpha*alphaWidth;alphaSlideHelper.css({left:alphaX-alphaSlideHelperWidth/2+"px"});var slideY=currentHue*slideHeight;slideHelper.css({top:slideY-slideHelperHeight+"px"})}}function updateOriginalInput(fireCallback){var color=get(),displayColor="",hasChanged=!tinycolor.equals(color,colorOnShow);color&&(displayColor=color.toString(currentPreferredFormat),addColorToSelectionPalette(color)),isInput&&boundElement.val(displayColor),colorOnShow=color,fireCallback&&hasChanged&&(callbacks.change(color),boundElement.trigger("change",[color]))}function reflow(){dragWidth=dragger.width(),dragHeight=dragger.height(),dragHelperHeight=dragHelper.height(),slideWidth=slider.width(),slideHeight=slider.height(),slideHelperHeight=slideHelper.height(),alphaWidth=alphaSlider.width(),alphaSlideHelperWidth=alphaSlideHelper.width(),flat||(container.css("position","absolute"),container.offset(getOffset(container,offsetElement))),updateHelperLocations(),opts.showPalette&&drawPalette(),boundElement.trigger("reflow.spectrum")}function destroy(){boundElement.show(),offsetElement.unbind("click.spectrum touchstart.spectrum"),container.remove(),replacer.remove(),spectrums[spect.id]=null}function option(optionName,optionValue){return optionName===undefined?$.extend({},opts):optionValue===undefined?opts[optionName]:(opts[optionName]=optionValue,void applyOptions())}function enable(){disabled=!1,boundElement.attr("disabled",!1),offsetElement.removeClass("sp-disabled")}function disable(){hide(),disabled=!0,boundElement.attr("disabled",!0),offsetElement.addClass("sp-disabled")}var opts=instanceOptions(o,element),flat=opts.flat,showSelectionPalette=opts.showSelectionPalette,localStorageKey=opts.localStorageKey,theme=opts.theme,callbacks=opts.callbacks,resize=throttle(reflow,10),visible=!1,dragWidth=0,dragHeight=0,dragHelperHeight=0,slideHeight=0,slideWidth=0,alphaWidth=0,alphaSlideHelperWidth=0,slideHelperHeight=0,currentHue=0,currentSaturation=0,currentValue=0,currentAlpha=1,palette=[],paletteArray=[],paletteLookup={},selectionPalette=opts.selectionPalette.slice(0),maxSelectionSize=opts.maxSelectionSize,draggingClass="sp-dragging",shiftMovementDirection=null,doc=element.ownerDocument,boundElement=(doc.body,$(element)),disabled=!1,container=$(markup,doc).addClass(theme),pickerContainer=container.find(".sp-picker-container"),dragger=container.find(".sp-color"),dragHelper=container.find(".sp-dragger"),slider=container.find(".sp-hue"),slideHelper=container.find(".sp-slider"),alphaSliderInner=container.find(".sp-alpha-inner"),alphaSlider=container.find(".sp-alpha"),alphaSlideHelper=container.find(".sp-alpha-handle"),textInput=container.find(".sp-input"),paletteContainer=container.find(".sp-palette"),initialColorContainer=container.find(".sp-initial"),cancelButton=container.find(".sp-cancel"),clearButton=container.find(".sp-clear"),chooseButton=container.find(".sp-choose"),toggleButton=container.find(".sp-palette-toggle"),isInput=boundElement.is("input"),isInputTypeColor=isInput&&inputTypeColorSupport&&"color"===boundElement.attr("type"),shouldReplace=isInput&&!flat,replacer=shouldReplace?$(replaceInput).addClass(theme).addClass(opts.className).addClass(opts.replacerClassName):$([]),offsetElement=shouldReplace?replacer:boundElement,previewElement=replacer.find(".sp-preview-inner"),initialColor=opts.color||isInput&&boundElement.val(),colorOnShow=!1,preferredFormat=opts.preferredFormat,currentPreferredFormat=preferredFormat,clickoutFiresChange=!opts.showButtons||opts.clickoutFiresChange,isEmpty=!initialColor,allowEmpty=opts.allowEmpty&&!isInputTypeColor;initialize();var spect={show:show,hide:hide,toggle:toggle,reflow:reflow,option:option,enable:enable,disable:disable,set:function(c){set(c),updateOriginalInput()},get:get,destroy:destroy,container:container};return spect.id=spectrums.push(spect)-1,spect}function getOffset(picker,input){var extraY=0,dpWidth=picker.outerWidth(),dpHeight=picker.outerHeight(),inputHeight=input.outerHeight(),doc=picker[0].ownerDocument,docElem=doc.documentElement,viewWidth=docElem.clientWidth+$(doc).scrollLeft(),viewHeight=docElem.clientHeight+$(doc).scrollTop(),offset=input.offset();return offset.top+=inputHeight,offset.left-=Math.min(offset.left,offset.left+dpWidth>viewWidth&&viewWidth>dpWidth?Math.abs(offset.left+dpWidth-viewWidth):0),offset.top-=Math.min(offset.top,offset.top+dpHeight>viewHeight&&viewHeight>dpHeight?Math.abs(dpHeight+inputHeight-extraY):extraY),offset}function noop(){}function stopPropagation(e){e.stopPropagation()}function bind(func,obj){var slice=Array.prototype.slice,args=slice.call(arguments,2);return function(){return func.apply(obj,args.concat(slice.call(arguments)))}}function draggable(element,onmove,onstart,onstop){function prevent(e){e.stopPropagation&&e.stopPropagation(),e.preventDefault&&e.preventDefault(),e.returnValue=!1}function move(e){if(dragging){if(IE&&document.documentMode<9&&!e.button)return stop();var touches=e.originalEvent.touches,pageX=touches?touches[0].pageX:e.pageX,pageY=touches?touches[0].pageY:e.pageY,dragX=Math.max(0,Math.min(pageX-offset.left,maxWidth)),dragY=Math.max(0,Math.min(pageY-offset.top,maxHeight));hasTouch&&prevent(e),onmove.apply(element,[dragX,dragY,e])}}function start(e){{var rightclick=e.which?3==e.which:2==e.button;e.originalEvent.touches}rightclick||dragging||onstart.apply(element,arguments)!==!1&&(dragging=!0,maxHeight=$(element).height(),maxWidth=$(element).width(),offset=$(element).offset(),$(doc).bind(duringDragEvents),$(doc.body).addClass("sp-dragging"),hasTouch||move(e),prevent(e))}function stop(){dragging&&($(doc).unbind(duringDragEvents),$(doc.body).removeClass("sp-dragging"),onstop.apply(element,arguments)),dragging=!1}onmove=onmove||function(){},onstart=onstart||function(){},onstop=onstop||function(){};var doc=element.ownerDocument||document,dragging=!1,offset={},maxHeight=0,maxWidth=0,hasTouch="ontouchstart"in window,duringDragEvents={};duringDragEvents.selectstart=prevent,duringDragEvents.dragstart=prevent,duringDragEvents["touchmove mousemove"]=move,duringDragEvents["touchend mouseup"]=stop,$(element).bind("touchstart mousedown",start)}function throttle(func,wait,debounce){var timeout;return function(){var context=this,args=arguments,throttler=function(){timeout=null,func.apply(context,args)};debounce&&clearTimeout(timeout),(debounce||!timeout)&&(timeout=setTimeout(throttler,wait))}}var defaultOpts={beforeShow:noop,move:noop,change:noop,show:noop,hide:noop,color:!1,flat:!1,showInput:!1,allowEmpty:!1,showButtons:!0,clickoutFiresChange:!1,showInitial:!1,showPalette:!1,showPaletteOnly:!1,hideAfterPaletteSelect:!1,togglePaletteOnly:!1,showSelectionPalette:!0,localStorageKey:!1,appendTo:"body",maxSelectionSize:7,cancelText:"cancel",chooseText:"choose",togglePaletteMoreText:"more",togglePaletteLessText:"less",clearText:"Clear Color Selection",noColorSelectedText:"No Color Selected",preferredFormat:!1,className:"",containerClassName:"",replacerClassName:"",showAlpha:!1,theme:"sp-light",palette:[["#ffffff","#000000","#ff0000","#ff8000","#ffff00","#008000","#0000ff","#4b0082","#9400d3"]],selectionPalette:[],disabled:!1},spectrums=[],IE=!!/msie/i.exec(window.navigator.userAgent),rgbaSupport=function(){function contains(str,substr){return!!~(""+str).indexOf(substr)}var elem=document.createElement("div"),style=elem.style;return style.cssText="background-color:rgba(0,0,0,.5)",contains(style.backgroundColor,"rgba")||contains(style.backgroundColor,"hsla")}(),inputTypeColorSupport=function(){var colorInput=$("<input type='color' value='!' />")[0];return"color"===colorInput.type&&"!"!==colorInput.value}(),replaceInput=["<div class='sp-replacer'>","<div class='sp-preview'><div class='sp-preview-inner'></div></div>","<div class='sp-dd'>&#9660;</div>","</div>"].join(""),markup=function(){var gradientFix="";if(IE)for(var i=1;6>=i;i++)gradientFix+="<div class='sp-"+i+"'></div>";return["<div class='sp-container sp-hidden'>","<div class='sp-palette-container'>","<div class='sp-palette sp-thumb sp-cf'></div>","<div class='sp-palette-button-container sp-cf'>","<button type='button' class='sp-palette-toggle'></button>","</div>","</div>","<div class='sp-picker-container'>","<div class='sp-top sp-cf'>","<div class='sp-fill'></div>","<div class='sp-top-inner'>","<div class='sp-color'>","<div class='sp-sat'>","<div class='sp-val'>","<div class='sp-dragger'></div>","</div>","</div>","</div>","<div class='sp-clear sp-clear-display'>","</div>","<div class='sp-hue'>","<div class='sp-slider'></div>",gradientFix,"</div>","</div>","<div class='sp-alpha'><div class='sp-alpha-inner'><div class='sp-alpha-handle'></div></div></div>","</div>","<div class='sp-input-container sp-cf'>","<input class='sp-input' type='text' spellcheck='false'  />","</div>","<div class='sp-initial sp-thumb sp-cf'></div>","<div class='sp-button-container sp-cf'>","<a class='sp-cancel' href='#'></a>","<button type='button' class='sp-choose'></button>","</div>","</div>","</div>"].join("")}(),dataID="spectrum.id";$.fn.spectrum=function(opts){if("string"==typeof opts){var returnValue=this,args=Array.prototype.slice.call(arguments,1);return this.each(function(){var spect=spectrums[$(this).data(dataID)];if(spect){var method=spect[opts];if(!method)throw new Error("Spectrum: no such method: '"+opts+"'");"get"==opts?returnValue=spect.get():"container"==opts?returnValue=spect.container:"option"==opts?returnValue=spect.option.apply(spect,args):"destroy"==opts?(spect.destroy(),$(this).removeData(dataID)):method.apply(spect,args)}}),returnValue}return this.spectrum("destroy").each(function(){var options=$.extend({},opts,$(this).data()),spect=spectrum(this,options);$(this).data(dataID,spect.id)})},$.fn.spectrum.load=!0,$.fn.spectrum.loadOpts={},$.fn.spectrum.draggable=draggable,$.fn.spectrum.defaults=defaultOpts,$.spectrum={},$.spectrum.localization={},$.spectrum.palettes={},$.fn.spectrum.processNativeColorInputs=function(){inputTypeColorSupport||$("input[type=color]").spectrum({preferredFormat:"hex6"})},function(){function inputToRGB(color){var rgb={r:0,g:0,b:0},a=1,ok=!1,format=!1;return"string"==typeof color&&(color=stringInputToObject(color)),"object"==typeof color&&(color.hasOwnProperty("r")&&color.hasOwnProperty("g")&&color.hasOwnProperty("b")?(rgb=rgbToRgb(color.r,color.g,color.b),ok=!0,format="%"===String(color.r).substr(-1)?"prgb":"rgb"):color.hasOwnProperty("h")&&color.hasOwnProperty("s")&&color.hasOwnProperty("v")?(color.s=convertToPercentage(color.s),color.v=convertToPercentage(color.v),rgb=hsvToRgb(color.h,color.s,color.v),ok=!0,format="hsv"):color.hasOwnProperty("h")&&color.hasOwnProperty("s")&&color.hasOwnProperty("l")&&(color.s=convertToPercentage(color.s),color.l=convertToPercentage(color.l),rgb=hslToRgb(color.h,color.s,color.l),ok=!0,format="hsl"),color.hasOwnProperty("a")&&(a=color.a)),a=boundAlpha(a),{ok:ok,format:color.format||format,r:mathMin(255,mathMax(rgb.r,0)),g:mathMin(255,mathMax(rgb.g,0)),b:mathMin(255,mathMax(rgb.b,0)),a:a}}function rgbToRgb(r,g,b){return{r:255*bound01(r,255),g:255*bound01(g,255),b:255*bound01(b,255)}}function rgbToHsl(r,g,b){r=bound01(r,255),g=bound01(g,255),b=bound01(b,255);var h,s,max=mathMax(r,g,b),min=mathMin(r,g,b),l=(max+min)/2;if(max==min)h=s=0;else{var d=max-min;switch(s=l>.5?d/(2-max-min):d/(max+min),max){case r:h=(g-b)/d+(b>g?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4}h/=6}return{h:h,s:s,l:l}}function hslToRgb(h,s,l){function hue2rgb(p,q,t){return 0>t&&(t+=1),t>1&&(t-=1),1/6>t?p+6*(q-p)*t:.5>t?q:2/3>t?p+(q-p)*(2/3-t)*6:p}var r,g,b;if(h=bound01(h,360),s=bound01(s,100),l=bound01(l,100),0===s)r=g=b=l;else{var q=.5>l?l*(1+s):l+s-l*s,p=2*l-q;r=hue2rgb(p,q,h+1/3),g=hue2rgb(p,q,h),b=hue2rgb(p,q,h-1/3)}return{r:255*r,g:255*g,b:255*b}}function rgbToHsv(r,g,b){r=bound01(r,255),g=bound01(g,255),b=bound01(b,255);var h,s,max=mathMax(r,g,b),min=mathMin(r,g,b),v=max,d=max-min;if(s=0===max?0:d/max,max==min)h=0;else{switch(max){case r:h=(g-b)/d+(b>g?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4}h/=6}return{h:h,s:s,v:v}}function hsvToRgb(h,s,v){h=6*bound01(h,360),s=bound01(s,100),v=bound01(v,100);var i=math.floor(h),f=h-i,p=v*(1-s),q=v*(1-f*s),t=v*(1-(1-f)*s),mod=i%6,r=[v,q,p,p,t,v][mod],g=[t,v,v,q,p,p][mod],b=[p,p,t,v,v,q][mod];return{r:255*r,g:255*g,b:255*b}}function rgbToHex(r,g,b,allow3Char){var hex=[pad2(mathRound(r).toString(16)),pad2(mathRound(g).toString(16)),pad2(mathRound(b).toString(16))];return allow3Char&&hex[0].charAt(0)==hex[0].charAt(1)&&hex[1].charAt(0)==hex[1].charAt(1)&&hex[2].charAt(0)==hex[2].charAt(1)?hex[0].charAt(0)+hex[1].charAt(0)+hex[2].charAt(0):hex.join("")}function rgbaToHex(r,g,b,a){var hex=[pad2(convertDecimalToHex(a)),pad2(mathRound(r).toString(16)),pad2(mathRound(g).toString(16)),pad2(mathRound(b).toString(16))];return hex.join("")}function desaturate(color,amount){amount=0===amount?0:amount||10;var hsl=tinycolor(color).toHsl();return hsl.s-=amount/100,hsl.s=clamp01(hsl.s),tinycolor(hsl)}function saturate(color,amount){amount=0===amount?0:amount||10;var hsl=tinycolor(color).toHsl();return hsl.s+=amount/100,hsl.s=clamp01(hsl.s),tinycolor(hsl)}function greyscale(color){return tinycolor(color).desaturate(100)}function lighten(color,amount){amount=0===amount?0:amount||10;var hsl=tinycolor(color).toHsl();return hsl.l+=amount/100,hsl.l=clamp01(hsl.l),tinycolor(hsl)}function brighten(color,amount){amount=0===amount?0:amount||10;var rgb=tinycolor(color).toRgb();return rgb.r=mathMax(0,mathMin(255,rgb.r-mathRound(255*-(amount/100)))),rgb.g=mathMax(0,mathMin(255,rgb.g-mathRound(255*-(amount/100)))),rgb.b=mathMax(0,mathMin(255,rgb.b-mathRound(255*-(amount/100)))),tinycolor(rgb)}function darken(color,amount){amount=0===amount?0:amount||10;var hsl=tinycolor(color).toHsl();return hsl.l-=amount/100,hsl.l=clamp01(hsl.l),tinycolor(hsl)}function spin(color,amount){var hsl=tinycolor(color).toHsl(),hue=(mathRound(hsl.h)+amount)%360;return hsl.h=0>hue?360+hue:hue,tinycolor(hsl)}function complement(color){var hsl=tinycolor(color).toHsl();return hsl.h=(hsl.h+180)%360,tinycolor(hsl)}function triad(color){var hsl=tinycolor(color).toHsl(),h=hsl.h;return[tinycolor(color),tinycolor({h:(h+120)%360,s:hsl.s,l:hsl.l}),tinycolor({h:(h+240)%360,s:hsl.s,l:hsl.l})]}function tetrad(color){var hsl=tinycolor(color).toHsl(),h=hsl.h;return[tinycolor(color),tinycolor({h:(h+90)%360,s:hsl.s,l:hsl.l}),tinycolor({h:(h+180)%360,s:hsl.s,l:hsl.l}),tinycolor({h:(h+270)%360,s:hsl.s,l:hsl.l})]}function splitcomplement(color){var hsl=tinycolor(color).toHsl(),h=hsl.h;return[tinycolor(color),tinycolor({h:(h+72)%360,s:hsl.s,l:hsl.l}),tinycolor({h:(h+216)%360,s:hsl.s,l:hsl.l})]}function analogous(color,results,slices){results=results||6,slices=slices||30;var hsl=tinycolor(color).toHsl(),part=360/slices,ret=[tinycolor(color)];for(hsl.h=(hsl.h-(part*results>>1)+720)%360;--results;)hsl.h=(hsl.h+part)%360,ret.push(tinycolor(hsl));return ret}function monochromatic(color,results){results=results||6;for(var hsv=tinycolor(color).toHsv(),h=hsv.h,s=hsv.s,v=hsv.v,ret=[],modification=1/results;results--;)ret.push(tinycolor({h:h,s:s,v:v})),v=(v+modification)%1;return ret}function flip(o){var flipped={};for(var i in o)o.hasOwnProperty(i)&&(flipped[o[i]]=i);return flipped}function boundAlpha(a){return a=parseFloat(a),(isNaN(a)||0>a||a>1)&&(a=1),a}function bound01(n,max){isOnePointZero(n)&&(n="100%");var processPercent=isPercentage(n);return n=mathMin(max,mathMax(0,parseFloat(n))),processPercent&&(n=parseInt(n*max,10)/100),math.abs(n-max)<1e-6?1:n%max/parseFloat(max)}function clamp01(val){return mathMin(1,mathMax(0,val))}function parseIntFromHex(val){return parseInt(val,16)}function isOnePointZero(n){return"string"==typeof n&&-1!=n.indexOf(".")&&1===parseFloat(n)}function isPercentage(n){return"string"==typeof n&&-1!=n.indexOf("%")}function pad2(c){return 1==c.length?"0"+c:""+c}function convertToPercentage(n){return 1>=n&&(n=100*n+"%"),n}function convertDecimalToHex(d){return Math.round(255*parseFloat(d)).toString(16)}function convertHexToDecimal(h){return parseIntFromHex(h)/255}function stringInputToObject(color){color=color.replace(trimLeft,"").replace(trimRight,"").toLowerCase();var named=!1;if(names[color])color=names[color],named=!0;else if("transparent"==color)return{r:0,g:0,b:0,a:0,format:"name"};var match;return(match=matchers.rgb.exec(color))?{r:match[1],g:match[2],b:match[3]}:(match=matchers.rgba.exec(color))?{r:match[1],g:match[2],b:match[3],a:match[4]}:(match=matchers.hsl.exec(color))?{h:match[1],s:match[2],l:match[3]}:(match=matchers.hsla.exec(color))?{h:match[1],s:match[2],l:match[3],a:match[4]}:(match=matchers.hsv.exec(color))?{h:match[1],s:match[2],v:match[3]}:(match=matchers.hex8.exec(color))?{a:convertHexToDecimal(match[1]),r:parseIntFromHex(match[2]),g:parseIntFromHex(match[3]),b:parseIntFromHex(match[4]),format:named?"name":"hex8"}:(match=matchers.hex6.exec(color))?{r:parseIntFromHex(match[1]),g:parseIntFromHex(match[2]),b:parseIntFromHex(match[3]),format:named?"name":"hex"}:(match=matchers.hex3.exec(color))?{r:parseIntFromHex(match[1]+""+match[1]),g:parseIntFromHex(match[2]+""+match[2]),b:parseIntFromHex(match[3]+""+match[3]),format:named?"name":"hex"}:!1}var trimLeft=/^[\s,#]+/,trimRight=/\s+$/,tinyCounter=0,math=Math,mathRound=math.round,mathMin=math.min,mathMax=math.max,mathRandom=math.random,tinycolor=function tinycolor(color,opts){if(color=color?color:"",opts=opts||{},color instanceof tinycolor)return color;if(!(this instanceof tinycolor))return new tinycolor(color,opts);var rgb=inputToRGB(color);this._r=rgb.r,this._g=rgb.g,this._b=rgb.b,this._a=rgb.a,this._roundA=mathRound(100*this._a)/100,this._format=opts.format||rgb.format,this._gradientType=opts.gradientType,this._r<1&&(this._r=mathRound(this._r)),this._g<1&&(this._g=mathRound(this._g)),this._b<1&&(this._b=mathRound(this._b)),this._ok=rgb.ok,this._tc_id=tinyCounter++};tinycolor.prototype={isDark:function(){return this.getBrightness()<128},isLight:function(){return!this.isDark()},isValid:function(){return this._ok},getFormat:function(){return this._format},getAlpha:function(){return this._a},getBrightness:function(){var rgb=this.toRgb();return(299*rgb.r+587*rgb.g+114*rgb.b)/1e3},setAlpha:function(value){return this._a=boundAlpha(value),this._roundA=mathRound(100*this._a)/100,this},toHsv:function(){var hsv=rgbToHsv(this._r,this._g,this._b);return{h:360*hsv.h,s:hsv.s,v:hsv.v,a:this._a}},toHsvString:function(){var hsv=rgbToHsv(this._r,this._g,this._b),h=mathRound(360*hsv.h),s=mathRound(100*hsv.s),v=mathRound(100*hsv.v);return 1==this._a?"hsv("+h+", "+s+"%, "+v+"%)":"hsva("+h+", "+s+"%, "+v+"%, "+this._roundA+")"},toHsl:function(){var hsl=rgbToHsl(this._r,this._g,this._b);return{h:360*hsl.h,s:hsl.s,l:hsl.l,a:this._a}},toHslString:function(){var hsl=rgbToHsl(this._r,this._g,this._b),h=mathRound(360*hsl.h),s=mathRound(100*hsl.s),l=mathRound(100*hsl.l);return 1==this._a?"hsl("+h+", "+s+"%, "+l+"%)":"hsla("+h+", "+s+"%, "+l+"%, "+this._roundA+")"},toHex:function(allow3Char){return rgbToHex(this._r,this._g,this._b,allow3Char)},toHexString:function(allow3Char){return"#"+this.toHex(allow3Char)},toHex8:function(){return rgbaToHex(this._r,this._g,this._b,this._a)},toHex8String:function(){return"#"+this.toHex8()},toRgb:function(){return{r:mathRound(this._r),g:mathRound(this._g),b:mathRound(this._b),a:this._a}},toRgbString:function(){return 1==this._a?"rgb("+mathRound(this._r)+", "+mathRound(this._g)+", "+mathRound(this._b)+")":"rgba("+mathRound(this._r)+", "+mathRound(this._g)+", "+mathRound(this._b)+", "+this._roundA+")"},toPercentageRgb:function(){return{r:mathRound(100*bound01(this._r,255))+"%",g:mathRound(100*bound01(this._g,255))+"%",b:mathRound(100*bound01(this._b,255))+"%",a:this._a}},toPercentageRgbString:function(){return 1==this._a?"rgb("+mathRound(100*bound01(this._r,255))+"%, "+mathRound(100*bound01(this._g,255))+"%, "+mathRound(100*bound01(this._b,255))+"%)":"rgba("+mathRound(100*bound01(this._r,255))+"%, "+mathRound(100*bound01(this._g,255))+"%, "+mathRound(100*bound01(this._b,255))+"%, "+this._roundA+")"},toName:function(){return 0===this._a?"transparent":this._a<1?!1:hexNames[rgbToHex(this._r,this._g,this._b,!0)]||!1},toFilter:function(secondColor){var hex8String="#"+rgbaToHex(this._r,this._g,this._b,this._a),secondHex8String=hex8String,gradientType=this._gradientType?"GradientType = 1, ":"";if(secondColor){var s=tinycolor(secondColor);secondHex8String=s.toHex8String()
-}return"progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")"},toString:function(format){var formatSet=!!format;format=format||this._format;var formattedString=!1,hasAlpha=this._a<1&&this._a>=0,needsAlphaFormat=!formatSet&&hasAlpha&&("hex"===format||"hex6"===format||"hex3"===format||"name"===format);return needsAlphaFormat?"name"===format&&0===this._a?this.toName():this.toRgbString():("rgb"===format&&(formattedString=this.toRgbString()),"prgb"===format&&(formattedString=this.toPercentageRgbString()),("hex"===format||"hex6"===format)&&(formattedString=this.toHexString()),"hex3"===format&&(formattedString=this.toHexString(!0)),"hex8"===format&&(formattedString=this.toHex8String()),"name"===format&&(formattedString=this.toName()),"hsl"===format&&(formattedString=this.toHslString()),"hsv"===format&&(formattedString=this.toHsvString()),formattedString||this.toHexString())},_applyModification:function(fn,args){var color=fn.apply(null,[this].concat([].slice.call(args)));return this._r=color._r,this._g=color._g,this._b=color._b,this.setAlpha(color._a),this},lighten:function(){return this._applyModification(lighten,arguments)},brighten:function(){return this._applyModification(brighten,arguments)},darken:function(){return this._applyModification(darken,arguments)},desaturate:function(){return this._applyModification(desaturate,arguments)},saturate:function(){return this._applyModification(saturate,arguments)},greyscale:function(){return this._applyModification(greyscale,arguments)},spin:function(){return this._applyModification(spin,arguments)},_applyCombination:function(fn,args){return fn.apply(null,[this].concat([].slice.call(args)))},analogous:function(){return this._applyCombination(analogous,arguments)},complement:function(){return this._applyCombination(complement,arguments)},monochromatic:function(){return this._applyCombination(monochromatic,arguments)},splitcomplement:function(){return this._applyCombination(splitcomplement,arguments)},triad:function(){return this._applyCombination(triad,arguments)},tetrad:function(){return this._applyCombination(tetrad,arguments)}},tinycolor.fromRatio=function(color,opts){if("object"==typeof color){var newColor={};for(var i in color)color.hasOwnProperty(i)&&(newColor[i]="a"===i?color[i]:convertToPercentage(color[i]));color=newColor}return tinycolor(color,opts)},tinycolor.equals=function(color1,color2){return color1&&color2?tinycolor(color1).toRgbString()==tinycolor(color2).toRgbString():!1},tinycolor.random=function(){return tinycolor.fromRatio({r:mathRandom(),g:mathRandom(),b:mathRandom()})},tinycolor.mix=function(color1,color2,amount){amount=0===amount?0:amount||50;var w1,rgb1=tinycolor(color1).toRgb(),rgb2=tinycolor(color2).toRgb(),p=amount/100,w=2*p-1,a=rgb2.a-rgb1.a;w1=w*a==-1?w:(w+a)/(1+w*a),w1=(w1+1)/2;var w2=1-w1,rgba={r:rgb2.r*w1+rgb1.r*w2,g:rgb2.g*w1+rgb1.g*w2,b:rgb2.b*w1+rgb1.b*w2,a:rgb2.a*p+rgb1.a*(1-p)};return tinycolor(rgba)},tinycolor.readability=function(color1,color2){var c1=tinycolor(color1),c2=tinycolor(color2),rgb1=c1.toRgb(),rgb2=c2.toRgb(),brightnessA=c1.getBrightness(),brightnessB=c2.getBrightness(),colorDiff=Math.max(rgb1.r,rgb2.r)-Math.min(rgb1.r,rgb2.r)+Math.max(rgb1.g,rgb2.g)-Math.min(rgb1.g,rgb2.g)+Math.max(rgb1.b,rgb2.b)-Math.min(rgb1.b,rgb2.b);return{brightness:Math.abs(brightnessA-brightnessB),color:colorDiff}},tinycolor.isReadable=function(color1,color2){var readability=tinycolor.readability(color1,color2);return readability.brightness>125&&readability.color>500},tinycolor.mostReadable=function(baseColor,colorList){for(var bestColor=null,bestScore=0,bestIsReadable=!1,i=0;i<colorList.length;i++){var readability=tinycolor.readability(baseColor,colorList[i]),readable=readability.brightness>125&&readability.color>500,score=3*(readability.brightness/125)+readability.color/500;(readable&&!bestIsReadable||readable&&bestIsReadable&&score>bestScore||!readable&&!bestIsReadable&&score>bestScore)&&(bestIsReadable=readable,bestScore=score,bestColor=tinycolor(colorList[i]))}return bestColor};var names=tinycolor.names={aliceblue:"f0f8ff",antiquewhite:"faebd7",aqua:"0ff",aquamarine:"7fffd4",azure:"f0ffff",beige:"f5f5dc",bisque:"ffe4c4",black:"000",blanchedalmond:"ffebcd",blue:"00f",blueviolet:"8a2be2",brown:"a52a2a",burlywood:"deb887",burntsienna:"ea7e5d",cadetblue:"5f9ea0",chartreuse:"7fff00",chocolate:"d2691e",coral:"ff7f50",cornflowerblue:"6495ed",cornsilk:"fff8dc",crimson:"dc143c",cyan:"0ff",darkblue:"00008b",darkcyan:"008b8b",darkgoldenrod:"b8860b",darkgray:"a9a9a9",darkgreen:"006400",darkgrey:"a9a9a9",darkkhaki:"bdb76b",darkmagenta:"8b008b",darkolivegreen:"556b2f",darkorange:"ff8c00",darkorchid:"9932cc",darkred:"8b0000",darksalmon:"e9967a",darkseagreen:"8fbc8f",darkslateblue:"483d8b",darkslategray:"2f4f4f",darkslategrey:"2f4f4f",darkturquoise:"00ced1",darkviolet:"9400d3",deeppink:"ff1493",deepskyblue:"00bfff",dimgray:"696969",dimgrey:"696969",dodgerblue:"1e90ff",firebrick:"b22222",floralwhite:"fffaf0",forestgreen:"228b22",fuchsia:"f0f",gainsboro:"dcdcdc",ghostwhite:"f8f8ff",gold:"ffd700",goldenrod:"daa520",gray:"808080",green:"008000",greenyellow:"adff2f",grey:"808080",honeydew:"f0fff0",hotpink:"ff69b4",indianred:"cd5c5c",indigo:"4b0082",ivory:"fffff0",khaki:"f0e68c",lavender:"e6e6fa",lavenderblush:"fff0f5",lawngreen:"7cfc00",lemonchiffon:"fffacd",lightblue:"add8e6",lightcoral:"f08080",lightcyan:"e0ffff",lightgoldenrodyellow:"fafad2",lightgray:"d3d3d3",lightgreen:"90ee90",lightgrey:"d3d3d3",lightpink:"ffb6c1",lightsalmon:"ffa07a",lightseagreen:"20b2aa",lightskyblue:"87cefa",lightslategray:"789",lightslategrey:"789",lightsteelblue:"b0c4de",lightyellow:"ffffe0",lime:"0f0",limegreen:"32cd32",linen:"faf0e6",magenta:"f0f",maroon:"800000",mediumaquamarine:"66cdaa",mediumblue:"0000cd",mediumorchid:"ba55d3",mediumpurple:"9370db",mediumseagreen:"3cb371",mediumslateblue:"7b68ee",mediumspringgreen:"00fa9a",mediumturquoise:"48d1cc",mediumvioletred:"c71585",midnightblue:"191970",mintcream:"f5fffa",mistyrose:"ffe4e1",moccasin:"ffe4b5",navajowhite:"ffdead",navy:"000080",oldlace:"fdf5e6",olive:"808000",olivedrab:"6b8e23",orange:"ffa500",orangered:"ff4500",orchid:"da70d6",palegoldenrod:"eee8aa",palegreen:"98fb98",paleturquoise:"afeeee",palevioletred:"db7093",papayawhip:"ffefd5",peachpuff:"ffdab9",peru:"cd853f",pink:"ffc0cb",plum:"dda0dd",powderblue:"b0e0e6",purple:"800080",red:"f00",rosybrown:"bc8f8f",royalblue:"4169e1",saddlebrown:"8b4513",salmon:"fa8072",sandybrown:"f4a460",seagreen:"2e8b57",seashell:"fff5ee",sienna:"a0522d",silver:"c0c0c0",skyblue:"87ceeb",slateblue:"6a5acd",slategray:"708090",slategrey:"708090",snow:"fffafa",springgreen:"00ff7f",steelblue:"4682b4",tan:"d2b48c",teal:"008080",thistle:"d8bfd8",tomato:"ff6347",turquoise:"40e0d0",violet:"ee82ee",wheat:"f5deb3",white:"fff",whitesmoke:"f5f5f5",yellow:"ff0",yellowgreen:"9acd32"},hexNames=tinycolor.hexNames=flip(names),matchers=function(){var CSS_INTEGER="[-\\+]?\\d+%?",CSS_NUMBER="[-\\+]?\\d*\\.\\d+%?",CSS_UNIT="(?:"+CSS_NUMBER+")|(?:"+CSS_INTEGER+")",PERMISSIVE_MATCH3="[\\s|\\(]+("+CSS_UNIT+")[,|\\s]+("+CSS_UNIT+")[,|\\s]+("+CSS_UNIT+")\\s*\\)?",PERMISSIVE_MATCH4="[\\s|\\(]+("+CSS_UNIT+")[,|\\s]+("+CSS_UNIT+")[,|\\s]+("+CSS_UNIT+")[,|\\s]+("+CSS_UNIT+")\\s*\\)?";return{rgb:new RegExp("rgb"+PERMISSIVE_MATCH3),rgba:new RegExp("rgba"+PERMISSIVE_MATCH4),hsl:new RegExp("hsl"+PERMISSIVE_MATCH3),hsla:new RegExp("hsla"+PERMISSIVE_MATCH4),hsv:new RegExp("hsv"+PERMISSIVE_MATCH3),hex3:/^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,hex6:/^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,hex8:/^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/}}();window.tinycolor=tinycolor}(),$(function(){$.fn.spectrum.load&&$.fn.spectrum.processNativeColorInputs()})};
-
-},{}],80:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8277,7 +6730,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],81:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -19513,4 +17966,4 @@ return Q;
 });
 
 }).call(this,require('_process'))
-},{"_process":81}]},{},[1]);
+},{"_process":72}]},{},[1]);

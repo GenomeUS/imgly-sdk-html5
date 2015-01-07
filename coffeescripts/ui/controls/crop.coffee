@@ -20,16 +20,6 @@ class UIControlsCrop extends List
     @operationClass = require "../../operations/crop.coffee"
     @listItems = [
       {
-        name: "Custom"
-        cssClass: "custom"
-        method: "setSize"
-        arguments: ["free"]
-        tooltip: "Freeform crop"
-        default: true
-        options:
-          size: "free"
-      },
-      {
         name: "Square"
         cssClass: "square"
         method: "setSize"
@@ -37,26 +27,50 @@ class UIControlsCrop extends List
         tooltip: "Squared crop"
         options:
           size: "square"
-      },
-      {
-        name: "4:3"
-        cssClass: "4-3"
-        method: "setSize"
-        arguments: ["4:3"]
-        tooltip: "4:3 crop"
-        options:
-          size: "4:3"
-      },
-      {
-        name: "16:9"
-        cssClass: "16-9"
-        method: "setSize"
-        arguments: ["16:9"]
-        tooltip: "16:9 crop"
-        options:
-          size: "16:9"
       }
     ]
+    
+  ###
+  	@listItems = [
+    {
+      name: "Custom"
+      cssClass: "custom"
+      method: "setSize"
+      arguments: ["free"]
+      tooltip: "Freeform crop"
+      default: true
+      options:
+        size: "free"
+    },
+    {
+      name: "Square"
+      cssClass: "square"
+      method: "setSize"
+      arguments: ["square"]
+      tooltip: "Squared crop"
+      options:
+        size: "square"
+    },
+    {
+      name: "4:3"
+      cssClass: "4-3"
+      method: "setSize"
+      arguments: ["4:3"]
+      tooltip: "4:3 crop"
+      options:
+        size: "4:3"
+    },
+    {
+      name: "16:9"
+      cssClass: "16-9"
+      method: "setSize"
+      arguments: ["16:9"]
+      tooltip: "16:9 crop"
+      options:
+        size: "16:9"
+    }
+  ]
+  ###
 
   updateOptions: (@operationOptions) ->
     @resizeCanvasControls()
