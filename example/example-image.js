@@ -4,12 +4,60 @@
  *
  * Copyright (c) 2013-2014 img.ly
  */
+/*
+var startX = 0;
+var endX = 0; 
+var startY = 0;
+var endY = 0;
+var touchDX = 0;
+var touchDY = 0;
+
+function onTouchStart(event) {
+	var touchObj = event.changedTouches[0];
+	startX = parseInt(touchObj.clientX);
+	startY = parseInt(touchObj.clientY);
+	console.log(touchObj.target.id + ' touch started');
+	
+}
+
+function onTouchMove(event) {
+	event.preventDefault();
+	var touchObj = event.changedTouches[0];
+	touchDX = parseInt(touchObj.clientX) - startX;
+	touchDY = parseInt(touchObj.clientY) - startY;
+	console.log(touchObj.target.id + ' DX: ' + touchDX + ", DY: " + touchDY);
+	
+}
+
+function onTouchEnd(event) {
+	var touchObj = event.changedTouches[0];
+	endX = parseInt(touchObj.clientX);
+	endY = parseInt(touchObj.clientY);
+	console.log(touchObj.target.id + ' touch ended');
+	
+}
+*/
 
 window.onload = function () {
   var imgly
     , image = new Image()
     , renderButton = document.getElementById("renderButton");
-
+  
+  /*
+  var touchable = 'createTouch' in document
+  if(touchable){
+  	console.log("Touch events enabled!");
+  	
+  	var canvas = document.getElementById('container');
+  	canvas.addEventListener('touchstart', onTouchStart, false );
+  	canvas.addEventListener('touchmove', onTouchMove, false );
+  	canvas.addEventListener('touchend', onTouchEnd, false );
+  	
+  }else{
+    console.log("Touch events not available!");
+  }
+  */
+  
   // Load image
   image.src = "img-1.jpg";
   image.onload = function () {
@@ -17,7 +65,8 @@ window.onload = function () {
     // Initialize ImglyKit and run it
     // with the image
     imgly = new ImglyKit({
-      container: "#container"
+      container: "#container",
+      ratio: 1
     });
 
     try {

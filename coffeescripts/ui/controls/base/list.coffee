@@ -30,17 +30,29 @@ class UIControlsBaseList extends Base
         # a class from the `name` property
         cssClass = option.cssClass or Utils.dasherize(option.name)
 
-        item = $("<li>")
-          .addClass(ImglyKit.classPrefix + "controls-item")
-          .addClass(ImglyKit.classPrefix + "controls-item-" + cssClass)
-          .appendTo @list
-
+        if option.name == "Crop"
+        
+          item = $("<li>")
+            .addClass(ImglyKit.classPrefix + "controls-item")
+            .addClass(ImglyKit.classPrefix + "controls-item-" + cssClass)
+            .addClass(ImglyKit.classPrefix + "controls-list-item-active")
+            .attr("id", ImglyKit.classPrefix + "controls-item-" + cssClass)
+            .appendTo @list
+            
+        else
+        
+          item = $("<li>")
+            .addClass(ImglyKit.classPrefix + "controls-item")
+            .addClass(ImglyKit.classPrefix + "controls-item-" + cssClass)
+            .attr("id", ImglyKit.classPrefix + "controls-item-" + cssClass)
+            .appendTo @list
+          
         if option.pixmap?
           item.attr "style", "background-image: url('#{@app.buildAssetsPath(option.pixmap)}'); background-size: 42px;"
 
         if option.tooltip?
           item.attr "title", option.tooltip
-
+          
         item.click (e) =>
           unless @allowMultipleClick
             return if @optionSelected
@@ -51,7 +63,7 @@ class UIControlsBaseList extends Base
         if option.default?
           item.click()
       )(option)
-
+      
   ###
     @param {ImglyKit.Operations.Operation}
   ###
@@ -124,6 +136,5 @@ class UIControlsBaseList extends Base
   setAllItemsInactive: ->
     activeClass = ImglyKit.classPrefix + "controls-list-item-active"
     @list.find("li").removeClass activeClass
-
-
+    
 module.exports = UIControlsBaseList

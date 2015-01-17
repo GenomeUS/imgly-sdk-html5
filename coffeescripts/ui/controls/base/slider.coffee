@@ -126,8 +126,7 @@ class UIControlsBaseSlider extends Base
     @Touch.on 'swipe:left', => @handleLeftSwipe()
     @Touch.on 'swipe:right', => @handleRightSwipe()
   
-  
-    # Handles swiping to the right  
+  # Handles swiping to the right  
     
   handleRightSwipe: -> 
     # console.log 'Swiped right! ' + "From "  + @Touch.touchStartX + " to " + @Touch.touchDX

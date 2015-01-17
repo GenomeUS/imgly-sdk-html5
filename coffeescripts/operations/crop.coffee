@@ -15,7 +15,7 @@ class CropOperation extends Operation
 
   setRatio: (ratio) =>
     @options.ratio = ratio
-    @setSize "custom"
+    @setSize "square"
 
   setSize: (size) ->
     {width, height} = @app.ui.getCanvas().getImageData()

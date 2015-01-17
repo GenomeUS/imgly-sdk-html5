@@ -25,53 +25,12 @@ class UIControlsCrop extends List
         method: "setSize"
         arguments: ["square"]
         tooltip: "Squared crop"
+        default: true
         options:
           size: "square"
       }
     ]
     
-  ###
-  	@listItems = [
-    {
-      name: "Custom"
-      cssClass: "custom"
-      method: "setSize"
-      arguments: ["free"]
-      tooltip: "Freeform crop"
-      default: true
-      options:
-        size: "free"
-    },
-    {
-      name: "Square"
-      cssClass: "square"
-      method: "setSize"
-      arguments: ["square"]
-      tooltip: "Squared crop"
-      options:
-        size: "square"
-    },
-    {
-      name: "4:3"
-      cssClass: "4-3"
-      method: "setSize"
-      arguments: ["4:3"]
-      tooltip: "4:3 crop"
-      options:
-        size: "4:3"
-    },
-    {
-      name: "16:9"
-      cssClass: "16-9"
-      method: "setSize"
-      arguments: ["16:9"]
-      tooltip: "16:9 crop"
-      options:
-        size: "16:9"
-    }
-  ]
-  ###
-
   updateOptions: (@operationOptions) ->
     @resizeCanvasControls()
 
@@ -90,6 +49,7 @@ class UIControlsCrop extends List
       "bl", "bc", "br"]
         div = $("<div>")
           .addClass(ImglyKit.classPrefix + "canvas-cropping-spotlight")
+          .attr("id", ImglyKit.classPrefix + "controls-wrapper-spotlight-" + position)
           .addClass(ImglyKit.classPrefix + "canvas-cropping-spotlight-" + position)
           .appendTo @canvasControlsContainer
 
@@ -100,8 +60,9 @@ class UIControlsCrop extends List
     ###
     @centerDiv = $("<div>")
       .addClass(ImglyKit.classPrefix + "canvas-cropping-center")
+      .attr("id", ImglyKit.classPrefix + "canvas-cropping-center")
       .appendTo @canvasControlsContainer
-
+      
     ###
       Create the knobs the user can use to resize the cropped area
     ###
@@ -109,16 +70,17 @@ class UIControlsCrop extends List
     for position in ["tl", "tr", "bl", "br"]
       div = $("<div>")
         .addClass(ImglyKit.classPrefix + "canvas-knob")
+        .attr("id", ImglyKit.classPrefix + "canvas-knob-" + position)
         .appendTo @canvasControlsContainer
 
       @knobs[position] = div
-
+      
     @handleCenterDragging()
     @handleTopLeftKnob()
     @handleBottomRightKnob()
     @handleBottomLeftKnob()
     @handleTopRightKnob()
-
+    
   ###
     Handles the dragging of the upper right knob
   ###
