@@ -1470,20 +1470,8 @@
   background-image: url("assets/option-flip-h.png");
 }
 /* line 5, ../sass/ui/controls/_crop.sass */
-.imgly-container .imgly-controls-container .imgly-controls-item.imgly-controls-item-custom {
-  background-image: url("assets/option-crop-custom.png");
-}
-/* line 5, ../sass/ui/controls/_crop.sass */
 .imgly-container .imgly-controls-container .imgly-controls-item.imgly-controls-item-square {
   background-image: url("assets/option-crop-square.png");
-}
-/* line 5, ../sass/ui/controls/_crop.sass */
-.imgly-container .imgly-controls-container .imgly-controls-item.imgly-controls-item-4-3 {
-  background-image: url("assets/option-crop-4-3.png");
-}
-/* line 5, ../sass/ui/controls/_crop.sass */
-.imgly-container .imgly-controls-container .imgly-controls-item.imgly-controls-item-16-9 {
-  background-image: url("assets/option-crop-16-9.png");
 }
 /* line 5, ../sass/ui/controls/_focus.sass */
 .imgly-container .imgly-controls-container .imgly-controls-item.imgly-controls-item-radial {

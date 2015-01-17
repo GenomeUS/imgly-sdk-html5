@@ -680,7 +680,7 @@ CropOperation = (function(_super) {
 
   CropOperation.prototype.setRatio = function(ratio) {
     this.options.ratio = ratio;
-    return this.setSize("custom");
+    return this.setSize("square");
   };
 
   CropOperation.prototype.setSize = function(size) {
@@ -4077,7 +4077,11 @@ UIControlsBaseList = (function(_super) {
             return $("<li>").addClass(ImglyKit.classPrefix + "controls-item-space").appendTo(_this.list);
           }
           cssClass = option.cssClass || Utils.dasherize(option.name);
-          item = $("<li>").addClass(ImglyKit.classPrefix + "controls-item").addClass(ImglyKit.classPrefix + "controls-item-" + cssClass).appendTo(_this.list);
+          if (option.name === "Crop") {
+            item = $("<li>").addClass(ImglyKit.classPrefix + "controls-item").addClass(ImglyKit.classPrefix + "controls-item-" + cssClass).addClass(ImglyKit.classPrefix + "controls-list-item-active").attr("id", ImglyKit.classPrefix + "controls-item-" + cssClass).appendTo(_this.list);
+          } else {
+            item = $("<li>").addClass(ImglyKit.classPrefix + "controls-item").addClass(ImglyKit.classPrefix + "controls-item-" + cssClass).attr("id", ImglyKit.classPrefix + "controls-item-" + cssClass).appendTo(_this.list);
+          }
           if (option.pixmap != null) {
             item.attr("style", "background-image: url('" + (_this.app.buildAssetsPath(option.pixmap)) + "'); background-size: 42px;");
           }
@@ -4580,55 +4584,13 @@ UIControlsCrop = (function(_super) {
         method: "setSize",
         "arguments": ["square"],
         tooltip: "Squared crop",
+        "default": true,
         options: {
           size: "square"
         }
       }
     ];
   }
-
-
-  /*
-  	@listItems = [
-    {
-      name: "Custom"
-      cssClass: "custom"
-      method: "setSize"
-      arguments: ["free"]
-      tooltip: "Freeform crop"
-      default: true
-      options:
-        size: "free"
-    },
-    {
-      name: "Square"
-      cssClass: "square"
-      method: "setSize"
-      arguments: ["square"]
-      tooltip: "Squared crop"
-      options:
-        size: "square"
-    },
-    {
-      name: "4:3"
-      cssClass: "4-3"
-      method: "setSize"
-      arguments: ["4:3"]
-      tooltip: "4:3 crop"
-      options:
-        size: "4:3"
-    },
-    {
-      name: "16:9"
-      cssClass: "16-9"
-      method: "setSize"
-      arguments: ["16:9"]
-      tooltip: "16:9 crop"
-      options:
-        size: "16:9"
-    }
-  ]
-   */
 
   UIControlsCrop.prototype.updateOptions = function(operationOptions) {
     this.operationOptions = operationOptions;
@@ -4653,14 +4615,14 @@ UIControlsCrop = (function(_super) {
     _ref = ["tl", "tc", "tr", "lc", "rc", "bl", "bc", "br"];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       position = _ref[_i];
-      div = $("<div>").addClass(ImglyKit.classPrefix + "canvas-cropping-spotlight").addClass(ImglyKit.classPrefix + "canvas-cropping-spotlight-" + position).appendTo(this.canvasControlsContainer);
+      div = $("<div>").addClass(ImglyKit.classPrefix + "canvas-cropping-spotlight").attr("id", ImglyKit.classPrefix + "controls-wrapper-spotlight-" + position).addClass(ImglyKit.classPrefix + "canvas-cropping-spotlight-" + position).appendTo(this.canvasControlsContainer);
       this.spotlightDivs[position] = div;
     }
 
     /*
       Create the center div (cropped area)
      */
-    this.centerDiv = $("<div>").addClass(ImglyKit.classPrefix + "canvas-cropping-center").appendTo(this.canvasControlsContainer);
+    this.centerDiv = $("<div>").addClass(ImglyKit.classPrefix + "canvas-cropping-center").attr("id", ImglyKit.classPrefix + "canvas-cropping-center").appendTo(this.canvasControlsContainer);
 
     /*
       Create the knobs the user can use to resize the cropped area
@@ -4669,7 +4631,7 @@ UIControlsCrop = (function(_super) {
     _ref1 = ["tl", "tr", "bl", "br"];
     for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
       position = _ref1[_j];
-      div = $("<div>").addClass(ImglyKit.classPrefix + "canvas-knob").appendTo(this.canvasControlsContainer);
+      div = $("<div>").addClass(ImglyKit.classPrefix + "canvas-knob").attr("id", ImglyKit.classPrefix + "canvas-knob-" + position).appendTo(this.canvasControlsContainer);
       this.knobs[position] = div;
     }
     this.handleCenterDragging();
@@ -5314,68 +5276,6 @@ UIControlsOverview = (function(_super) {
         tooltip: "Frames"
       }
     ];
-
-    /*
-    @listItems = [
-                  {
-                    name: "Filters"
-                    cssClass: "filters"
-                    controls: require "./filters.coffee"
-                    tooltip: "Filters"
-                  }, {
-                    name: "Stickers"
-                    cssClass: "stickers"
-                    controls: require "./stickers_control.coffee"
-                    tooltip: "Stickers"
-                  }, {
-                    name: "Orientation"
-                    cssClass: "orientation"
-                    controls: require "./orientation.coffee"
-                    tooltip: "Orientation"
-                  }, {
-                    name: "Focus"
-                    cssClass: "focus"
-                    controls: require "./focus.coffee"
-                    tooltip: "Focus"
-                  }, {
-                    name: "Crop"
-                    cssClass: "crop"
-                    controls: require "./crop.coffee"
-                    operation: require "../../operations/crop.coffee"
-                    tooltip: "Crop"
-                  }, {
-                    name: "Brightness"
-                    cssClass: "brightness"
-                    controls: require "./brightness.coffee"
-                    operation: require "../../operations/brightness.coffee"
-                    tooltip: "Brightness"
-                  }, {
-                    name: "Contrast"
-                    cssClass: "contrast"
-                    controls: require "./contrast.coffee"
-                    operation: require "../../operations/contrast.coffee"
-                    tooltip: "Contrast"
-                  }, {
-                    name: "Saturation"
-                    cssClass: "saturation"
-                    controls: require "./saturation.coffee"
-                    operation: require "../../operations/saturation.coffee"
-                    tooltip: "Saturation"
-                  }, {
-                    name: "Text"
-                    cssClass: "text"
-                    controls: require "./text.coffee"
-                    operation: require "../../operations/text.coffee"
-                    tooltip: "Text"
-                  }, {
-                    name: "Frames"
-                    cssClass: "frames"
-                    controls: require "./frames.coffee"
-                    operation: require "../../operations/frames.coffee"
-                    tooltip: "Frames"
-                  }
-                ]
-     */
   }
 
   return UIControlsOverview;
