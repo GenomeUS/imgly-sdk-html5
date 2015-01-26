@@ -91,36 +91,37 @@ class UIControlsCrop extends List
     @Touch.on 'swipe:down', => @handleCenterTouchDragging()
     
     # Binding top left knob to touch events
-    
+    ###
     @Touch.bind document.getElementById 'imgly-canvas-knob-tl'
     @Touch.on 'swipe:left', => @handleTopLeftKnobTouchDragging()
     @Touch.on 'swipe:right', => @handleTopLeftKnobTouchDragging()
     @Touch.on 'swipe:up', => @handleTopLeftKnobTouchDragging()
     @Touch.on 'swipe:down', => @handleTopLeftKnobTouchDragging()
-    
+    ###
     # Binding bottom right knob to touch events
-    
+    ###
     @Touch.bind document.getElementById 'imgly-canvas-knob-br'
     @Touch.on 'swipe:left', => @handleBottomRightKnobTouchDragging()
     @Touch.on 'swipe:right', => @handleBottomRightKnobTouchDragging()
     @Touch.on 'swipe:up', => @handleBottomRightKnobTouchDragging()
     @Touch.on 'swipe:down', => @handleBottomRightKnobTouchDragging()
-    
+    ###
     # Binding bottom left knob to touch events
-    
+    ###
     @Touch.bind document.getElementById 'imgly-canvas-knob-bl'
     @Touch.on 'swipe:left', => @handleBottomLeftKnobTouchDragging()
     @Touch.on 'swipe:right', => @handleBottomLeftKnobTouchDragging()
     @Touch.on 'swipe:up', => @handleBottomLeftKnobTouchDragging()
     @Touch.on 'swipe:down', => @handleBottomLeftKnobTouchDragging()
-    
+    ###
     # Binding top right knob to touch events
-    
+    ###
     @Touch.bind document.getElementById 'imgly-canvas-knob-tr'
     @Touch.on 'swipe:left', => @handleTopRightKnobTouchDragging()
     @Touch.on 'swipe:right', => @handleTopRightKnobTouchDragging()
     @Touch.on 'swipe:up', => @handleTopRightKnobTouchDragging()
     @Touch.on 'swipe:down', => @handleTopRightKnobTouchDragging()
+    ###
     
   ###
     Handles top left knob touch dragging 

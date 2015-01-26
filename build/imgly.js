@@ -4656,95 +4656,43 @@ UIControlsCrop = (function(_super) {
         return _this.handleCenterTouchDragging();
       };
     })(this));
-    this.Touch.on('swipe:down', (function(_this) {
+    return this.Touch.on('swipe:down', (function(_this) {
       return function() {
         return _this.handleCenterTouchDragging();
       };
     })(this));
-    this.Touch.bind(document.getElementById('imgly-canvas-knob-tl'));
-    this.Touch.on('swipe:left', (function(_this) {
-      return function() {
-        return _this.handleTopLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:right', (function(_this) {
-      return function() {
-        return _this.handleTopLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:up', (function(_this) {
-      return function() {
-        return _this.handleTopLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:down', (function(_this) {
-      return function() {
-        return _this.handleTopLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.bind(document.getElementById('imgly-canvas-knob-br'));
-    this.Touch.on('swipe:left', (function(_this) {
-      return function() {
-        return _this.handleBottomRightKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:right', (function(_this) {
-      return function() {
-        return _this.handleBottomRightKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:up', (function(_this) {
-      return function() {
-        return _this.handleBottomRightKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:down', (function(_this) {
-      return function() {
-        return _this.handleBottomRightKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.bind(document.getElementById('imgly-canvas-knob-bl'));
-    this.Touch.on('swipe:left', (function(_this) {
-      return function() {
-        return _this.handleBottomLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:right', (function(_this) {
-      return function() {
-        return _this.handleBottomLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:up', (function(_this) {
-      return function() {
-        return _this.handleBottomLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:down', (function(_this) {
-      return function() {
-        return _this.handleBottomLeftKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.bind(document.getElementById('imgly-canvas-knob-tr'));
-    this.Touch.on('swipe:left', (function(_this) {
-      return function() {
-        return _this.handleTopRightKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:right', (function(_this) {
-      return function() {
-        return _this.handleTopRightKnobTouchDragging();
-      };
-    })(this));
-    this.Touch.on('swipe:up', (function(_this) {
-      return function() {
-        return _this.handleTopRightKnobTouchDragging();
-      };
-    })(this));
-    return this.Touch.on('swipe:down', (function(_this) {
-      return function() {
-        return _this.handleTopRightKnobTouchDragging();
-      };
-    })(this));
+
+    /*
+    @Touch.bind document.getElementById 'imgly-canvas-knob-tl'
+    @Touch.on 'swipe:left', => @handleTopLeftKnobTouchDragging()
+    @Touch.on 'swipe:right', => @handleTopLeftKnobTouchDragging()
+    @Touch.on 'swipe:up', => @handleTopLeftKnobTouchDragging()
+    @Touch.on 'swipe:down', => @handleTopLeftKnobTouchDragging()
+     */
+
+    /*
+    @Touch.bind document.getElementById 'imgly-canvas-knob-br'
+    @Touch.on 'swipe:left', => @handleBottomRightKnobTouchDragging()
+    @Touch.on 'swipe:right', => @handleBottomRightKnobTouchDragging()
+    @Touch.on 'swipe:up', => @handleBottomRightKnobTouchDragging()
+    @Touch.on 'swipe:down', => @handleBottomRightKnobTouchDragging()
+     */
+
+    /*
+    @Touch.bind document.getElementById 'imgly-canvas-knob-bl'
+    @Touch.on 'swipe:left', => @handleBottomLeftKnobTouchDragging()
+    @Touch.on 'swipe:right', => @handleBottomLeftKnobTouchDragging()
+    @Touch.on 'swipe:up', => @handleBottomLeftKnobTouchDragging()
+    @Touch.on 'swipe:down', => @handleBottomLeftKnobTouchDragging()
+     */
+
+    /*
+    @Touch.bind document.getElementById 'imgly-canvas-knob-tr'
+    @Touch.on 'swipe:left', => @handleTopRightKnobTouchDragging()
+    @Touch.on 'swipe:right', => @handleTopRightKnobTouchDragging()
+    @Touch.on 'swipe:up', => @handleTopRightKnobTouchDragging()
+    @Touch.on 'swipe:down', => @handleTopRightKnobTouchDragging()
+     */
   };
 
 
