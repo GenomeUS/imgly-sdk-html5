@@ -3908,7 +3908,8 @@ module.exports = UIControls;
  */
 var $, EventEmitter, UIControlsBase,
   __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  __slice = [].slice;
 
 $ = require("jquery");
 
@@ -3926,7 +3927,7 @@ UIControlsBase = (function(_super) {
    */
 
   function UIControlsBase(app, ui, controls) {
-    var _base, _base1;
+    var key, value, _base, _base1, _ref;
     this.app = app;
     this.ui = ui;
     this.controls = controls;
@@ -3939,6 +3940,98 @@ UIControlsBase = (function(_super) {
     }
     if ((_base1 = this.options).showList == null) {
       _base1.showList = true;
+    }
+    this.Touch = {
+      horizontal_sensitivity: 10,
+      vertical_sensitivity: 10,
+      touchDX: 0,
+      touchDY: 0,
+      touchStartX: 0,
+      touchStartY: 0,
+      bind: function() {
+        var elem, elements, _i, _len, _results;
+        elements = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+        _results = [];
+        for (_i = 0, _len = elements.length; _i < _len; _i++) {
+          elem = elements[_i];
+          elem.addEventListener("touchstart", (function(_this) {
+            return function(event) {
+              return _this.handleStart(event, elem);
+            };
+          })(this));
+          elem.addEventListener("touchmove", (function(_this) {
+            return function(event) {
+              return _this.handleMove(event, elem);
+            };
+          })(this));
+          _results.push(elem.addEventListener("touchend", (function(_this) {
+            return function(event) {
+              return _this.handleEnd(event, elem);
+            };
+          })(this)));
+        }
+        return _results;
+      },
+      emitSlideLeft: function() {
+        return this.emit('swipe:left');
+      },
+      emitSlideRight: function() {
+        return this.emit('swipe:right');
+      },
+      emitSlideUp: function() {
+        return this.emit('swipe:up');
+      },
+      emitSlideDown: function() {
+        return this.emit('swipe:down');
+      },
+      handleStart: function(event, elem) {
+        if (event.touches.length === 1) {
+          this.touchDX = 0;
+          this.touchDY = 0;
+          this.touchStartX = event.touches[0].pageX;
+          return this.touchStartY = event.touches[0].pageY;
+        }
+      },
+      handleMove: function(event, elem) {
+        event.preventDefault();
+        if (event.touches.length > 1) {
+          this.cancelTouch(elem);
+          return false;
+        }
+        this.touchDX = event.touches[0].pageX - this.touchStartX;
+        return this.touchDY = event.touches[0].pageY - this.touchStartY;
+      },
+      handleEnd: function(event, elem) {
+        var dx, dy;
+        dx = Math.abs(this.touchDX);
+        dy = Math.abs(this.touchDY);
+        if ((dx > this.horizontal_sensitivity) && (dy < (dx * 2 / 3))) {
+          if (this.touchDX > 0) {
+            this.emitSlideRight();
+          } else {
+            this.emitSlideLeft();
+          }
+        }
+        if ((dy > this.vertical_sensitivity) && (dx < (dy * 2 / 3))) {
+          if (this.touchDY > 0) {
+            this.emitSlideDown();
+          } else {
+            this.emitSlideUp();
+          }
+        }
+        this.cancelTouch(event, elem);
+        return false;
+      },
+      cancelTouch: function(event, elem) {
+        elem.removeEventListener('touchmove', this.handleTouchMove, false);
+        elem.removeEventListener('touchend', this.handleTouchEnd, false);
+        return true;
+      }
+    };
+    _ref = new EventEmitter();
+    for (key in _ref) {
+      value = _ref[key];
+      this.Touch[key] = value;
     }
   }
 
@@ -4214,8 +4307,7 @@ module.exports = UIControlsBaseList;
 var $, Base, EventEmitter, UIControlsBaseSlider,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __slice = [].slice;
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 $ = require("jquery");
 
@@ -4233,102 +4325,11 @@ UIControlsBaseSlider = (function(_super) {
   }
 
   UIControlsBaseSlider.prototype.init = function() {
-    var key, spaceForPlusAndMinus, value, width, _ref;
+    var spaceForPlusAndMinus, width;
     spaceForPlusAndMinus = 60;
     width = this.controls.getContainer().width();
     width -= this.controls.getHeight() * 2;
     width -= spaceForPlusAndMinus;
-    this.Touch = {
-      horizontal_sensitivity: 10,
-      vertical_sensitivity: 6,
-      touchDX: 0,
-      touchDY: 0,
-      touchStartX: 0,
-      touchStartY: 0,
-      bind: function() {
-        var elem, elements, _i, _len, _results;
-        elements = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-        _results = [];
-        for (_i = 0, _len = elements.length; _i < _len; _i++) {
-          elem = elements[_i];
-          elem.addEventListener("touchstart", (function(_this) {
-            return function(event) {
-              return _this.handleStart(event, elem);
-            };
-          })(this));
-          elem.addEventListener("touchmove", (function(_this) {
-            return function(event) {
-              return _this.handleMove(event, elem);
-            };
-          })(this));
-          _results.push(elem.addEventListener("touchend", (function(_this) {
-            return function(event) {
-              return _this.handleEnd(event, elem);
-            };
-          })(this)));
-        }
-        return _results;
-      },
-      emitSlideLeft: function() {
-        return this.emit('swipe:left');
-      },
-      emitSlideRight: function() {
-        return this.emit('swipe:right');
-      },
-      emitSlideUp: function() {
-        return this.emit('swipe:up');
-      },
-      emitSlideDown: function() {
-        return this.emit('swipe:down');
-      },
-      handleStart: function(event, elem) {
-        if (event.touches.length === 1) {
-          this.touchDX = 0;
-          this.touchDY = 0;
-          this.touchStartX = event.touches[0].pageX;
-          return this.touchStartY = event.touches[0].pageY;
-        }
-      },
-      handleMove: function(event, elem) {
-        if (event.touches.length > 1) {
-          this.cancelTouch(elem);
-          return false;
-        }
-        this.touchDX = event.touches[0].pageX - this.touchStartX;
-        return this.touchDY = event.touches[0].pageY - this.touchStartY;
-      },
-      handleEnd: function(event, elem) {
-        var dx, dy;
-        dx = Math.abs(this.touchDX);
-        dy = Math.abs(this.touchDY);
-        if ((dx > this.horizontal_sensitivity) && (dy < (dx * 2 / 3))) {
-          if (this.touchDX > 0) {
-            this.emitSlideRight();
-          } else {
-            this.emitSlideLeft();
-          }
-        }
-        if ((dy > this.vertical_sensitivity) && (dx < (dy * 2 / 3))) {
-          if (this.touchDY > 0) {
-            this.emitSlideDown();
-          } else {
-            this.emitSlideUp();
-          }
-        }
-        this.cancelTouch(event, elem);
-        return false;
-      },
-      cancelTouch: function(event, elem) {
-        elem.removeEventListener('touchmove', this.handleTouchMove, false);
-        elem.removeEventListener('touchend', this.handleTouchEnd, false);
-        return true;
-      }
-    };
-    _ref = new EventEmitter();
-    for (key in _ref) {
-      value = _ref[key];
-      this.Touch[key] = value;
-    }
     this.wrapper = $("<div>").addClass(ImglyKit.classPrefix + "controls-wrapper").attr("id", ImglyKit.classPrefix + "controls-wrapper").attr("data-control", this.constructor.name).appendTo(this.controls.getContainer());
     this.sliderWrapper = $("<div>").addClass(ImglyKit.classPrefix + "controls-slider-wrapper").attr("id", ImglyKit.classPrefix + "controls-slider-wrapper").width(width).appendTo(this.wrapper);
     this.sliderCenterDot = $("<div>").addClass(ImglyKit.classPrefix + "controls-slider-dot").attr("id", ImglyKit.classPrefix + "controls-slider-dot").appendTo(this.sliderWrapper);
@@ -4638,7 +4639,273 @@ UIControlsCrop = (function(_super) {
     this.handleTopLeftKnob();
     this.handleBottomRightKnob();
     this.handleBottomLeftKnob();
-    return this.handleTopRightKnob();
+    this.handleTopRightKnob();
+    this.Touch.bind(document.getElementById('imgly-canvas-cropping-center'));
+    this.Touch.on('swipe:left', (function(_this) {
+      return function() {
+        return _this.handleCenterTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:right', (function(_this) {
+      return function() {
+        return _this.handleCenterTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:up', (function(_this) {
+      return function() {
+        return _this.handleCenterTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:down', (function(_this) {
+      return function() {
+        return _this.handleCenterTouchDragging();
+      };
+    })(this));
+    this.Touch.bind(document.getElementById('imgly-canvas-knob-tl'));
+    this.Touch.on('swipe:left', (function(_this) {
+      return function() {
+        return _this.handleTopLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:right', (function(_this) {
+      return function() {
+        return _this.handleTopLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:up', (function(_this) {
+      return function() {
+        return _this.handleTopLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:down', (function(_this) {
+      return function() {
+        return _this.handleTopLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.bind(document.getElementById('imgly-canvas-knob-br'));
+    this.Touch.on('swipe:left', (function(_this) {
+      return function() {
+        return _this.handleBottomRightKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:right', (function(_this) {
+      return function() {
+        return _this.handleBottomRightKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:up', (function(_this) {
+      return function() {
+        return _this.handleBottomRightKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:down', (function(_this) {
+      return function() {
+        return _this.handleBottomRightKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.bind(document.getElementById('imgly-canvas-knob-bl'));
+    this.Touch.on('swipe:left', (function(_this) {
+      return function() {
+        return _this.handleBottomLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:right', (function(_this) {
+      return function() {
+        return _this.handleBottomLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:up', (function(_this) {
+      return function() {
+        return _this.handleBottomLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:down', (function(_this) {
+      return function() {
+        return _this.handleBottomLeftKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.bind(document.getElementById('imgly-canvas-knob-tr'));
+    this.Touch.on('swipe:left', (function(_this) {
+      return function() {
+        return _this.handleTopRightKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:right', (function(_this) {
+      return function() {
+        return _this.handleTopRightKnobTouchDragging();
+      };
+    })(this));
+    this.Touch.on('swipe:up', (function(_this) {
+      return function() {
+        return _this.handleTopRightKnobTouchDragging();
+      };
+    })(this));
+    return this.Touch.on('swipe:down', (function(_this) {
+      return function() {
+        return _this.handleTopRightKnobTouchDragging();
+      };
+    })(this));
+  };
+
+
+  /*
+    Handles top left knob touch dragging
+   */
+
+  UIControlsCrop.prototype.handleTopLeftKnobTouchDragging = function() {
+    var canvasRect, diffMousePosition, endInPixels, heightInPixels, initialMousePosition, initialStart, knob, ratio, startInPixels, widthInPixels;
+    knob = this.knobs.tl;
+    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
+    initialMousePosition = new Vector2(this.Touch.touchStartX, this.Touch.touchStartY);
+    initialStart = new Vector2().copy(this.operationOptions.start);
+    ratio = this.operationOptions.ratio;
+    diffMousePosition = new Vector2(this.Touch.touchStartX + this.Touch.touchDX, this.Touch.touchStartY + this.Touch.touchDY).subtract(initialMousePosition);
+    if (this.operationOptions.ratio === 0) {
+      this.operationOptions.start.copy(initialStart).multiplyWithRect(canvasRect).add(diffMousePosition).divideByRect(canvasRect);
+    } else {
+      endInPixels = new Vector2().copy(this.operationOptions.end).multiplyWithRect(canvasRect);
+      startInPixels = new Vector2().copy(initialStart).multiplyWithRect(canvasRect);
+      startInPixels.x += (diffMousePosition.x + diffMousePosition.y) / 2;
+      startInPixels.clamp(1, endInPixels.x - 50);
+      widthInPixels = endInPixels.x - startInPixels.x;
+      heightInPixels = widthInPixels / this.operationOptions.ratio;
+      if (endInPixels.y - heightInPixels < 1) {
+        heightInPixels = this.operationOptions.end.y * canvasRect.height - 1;
+        widthInPixels = heightInPixels * this.operationOptions.ratio;
+      }
+      this.operationOptions.start.copy(this.operationOptions.end).multiplyWithRect(canvasRect).subtract(new Vector2(widthInPixels, heightInPixels)).divideByRect(canvasRect);
+    }
+    return this.resizeCanvasControls();
+  };
+
+
+  /*
+    Handles bottom right knob touch dragging
+   */
+
+  UIControlsCrop.prototype.handleBottomRightKnobTouchDragging = function() {
+    var canvasRect, diffMousePosition, endInPixels, height, heightInPixels, initialEnd, initialMousePosition, knob, ratio, startInPixels, width, widthInPixels, _ref;
+    knob = this.knobs.br;
+    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
+    initialMousePosition = new Vector2(this.Touch.touchStartX, this.Touch.touchStartY);
+    initialEnd = new Vector2().copy(this.operationOptions.end);
+    ratio = this.operationOptions.ratio;
+    diffMousePosition = new Vector2(this.Touch.touchStartX + this.Touch.touchDX, this.Touch.touchStartY + this.Touch.touchDY).subtract(initialMousePosition);
+    endInPixels = new Vector2().copy(initialEnd).multiplyWithRect(canvasRect);
+    startInPixels = new Vector2().copy(this.operationOptions.start).multiplyWithRect(canvasRect);
+    if (this.operationOptions.ratio === 0) {
+      this.operationOptions.end.copy(endInPixels).add(diffMousePosition).clamp(new Vector2(startInPixels.x + 50, startInPixels.y + 50), new Vector2(canvasRect.width - 1, canvasRect.height - 1)).divideByRect(canvasRect);
+      _ref = this.app.ui.getCanvas().getImageData(), width = _ref.width, height = _ref.height;
+      widthInPixels = endInPixels.x - startInPixels.x;
+    } else {
+      endInPixels.x += (diffMousePosition.x + diffMousePosition.y) / 2;
+      endInPixels.clamp(startInPixels.x + 50, canvasRect.width - 1);
+      widthInPixels = endInPixels.x - startInPixels.x;
+      heightInPixels = widthInPixels / this.operationOptions.ratio;
+      if (startInPixels.y + heightInPixels > canvasRect.height - 1) {
+        heightInPixels = (1 - this.operationOptions.start.y) * canvasRect.height - 1;
+        widthInPixels = heightInPixels * this.operationOptions.ratio;
+      }
+      this.operationOptions.end.copy(this.operationOptions.start).multiplyWithRect(canvasRect).add(new Vector2(widthInPixels, heightInPixels)).divideByRect(canvasRect);
+    }
+    return this.resizeCanvasControls();
+  };
+
+
+  /*
+    Handles bottom left knob touch dragging
+   */
+
+  UIControlsCrop.prototype.handleBottomLeftKnobTouchDragging = function() {
+    var canvasRect, diffMousePosition, endInPixels, heightInPixels, initialEnd, initialMousePosition, initialStart, knob, ratio, startInPixels, widthInPixels;
+    knob = this.knobs.bl;
+    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
+    initialMousePosition = new Vector2(this.Touch.touchStartX, this.Touch.touchStartY);
+    initialStart = this.operationOptions.start.clone();
+    initialEnd = this.operationOptions.end.clone();
+    ratio = this.operationOptions.ratio;
+    diffMousePosition = new Vector2(this.Touch.touchStartX + this.Touch.touchDX, this.Touch.touchStartY + this.Touch.touchDY).subtract(initialMousePosition);
+    endInPixels = new Vector2().copy(initialEnd).multiplyWithRect(canvasRect);
+    startInPixels = new Vector2().copy(initialStart).multiplyWithRect(canvasRect);
+    if (this.operationOptions.ratio === 0) {
+      this.operationOptions.end.copy(endInPixels);
+      this.operationOptions.end.y += diffMousePosition.y;
+      this.operationOptions.end.clamp(new Vector2(endInPixels.x, startInPixels.y + 50), new Vector2(endInPixels.x, canvasRect.height - 1)).divideByRect(canvasRect);
+      this.operationOptions.start.copy(startInPixels);
+      this.operationOptions.start.x += diffMousePosition.x;
+      this.operationOptions.start.clamp(new Vector2(1, 1), new Vector2(endInPixels.x - 50, endInPixels.y - 50)).divideByRect(canvasRect);
+    } else {
+      startInPixels.x += (diffMousePosition.x - diffMousePosition.y) / 2;
+      startInPixels.clamp(1, endInPixels.x - 50);
+      widthInPixels = endInPixels.x - startInPixels.x;
+      heightInPixels = widthInPixels / this.operationOptions.ratio;
+      if (startInPixels.y + heightInPixels > canvasRect.height - 1) {
+        heightInPixels = (1 - this.operationOptions.start.y) * canvasRect.height - 1;
+        widthInPixels = heightInPixels * this.operationOptions.ratio;
+      }
+      this.operationOptions.start.x = (endInPixels.x - widthInPixels) / canvasRect.width;
+      this.operationOptions.end.y = (startInPixels.y + heightInPixels) / canvasRect.height;
+    }
+    return this.resizeCanvasControls();
+  };
+
+
+  /*
+    Handles top right knob touch dragging
+   */
+
+  UIControlsCrop.prototype.handleTopRightKnobTouchDragging = function() {
+    var canvasRect, diffMousePosition, endInPixels, heightInPixels, initialEnd, initialMousePosition, initialStart, knob, ratio, startInPixels, widthInPixels;
+    knob = this.knobs.tr;
+    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
+    initialMousePosition = new Vector2(this.Touch.touchStartX, this.Touch.touchStartY);
+    initialStart = this.operationOptions.start.clone();
+    initialEnd = this.operationOptions.end.clone();
+    ratio = this.operationOptions.ratio;
+    diffMousePosition = new Vector2(this.Touch.touchStartX + this.Touch.touchDX, this.Touch.touchStartY + this.Touch.touchDY).subtract(initialMousePosition);
+    endInPixels = new Vector2().copy(initialEnd).multiplyWithRect(canvasRect);
+    startInPixels = new Vector2().copy(initialStart).multiplyWithRect(canvasRect);
+    if (this.operationOptions.ratio === 0) {
+      this.operationOptions.start.copy(startInPixels);
+      this.operationOptions.start.y += diffMousePosition.y;
+      this.operationOptions.start.clamp(new Vector2(startInPixels.x, 1), new Vector2(startInPixels.x, endInPixels.y - 50)).divideByRect(canvasRect);
+      this.operationOptions.end.copy(endInPixels);
+      this.operationOptions.end.x += diffMousePosition.x;
+      this.operationOptions.end.clamp(new Vector2(startInPixels.x + 50, endInPixels.y), new Vector2(canvasRect.width - 1, endInPixels.y)).divideByRect(canvasRect);
+    } else {
+      endInPixels.x += (diffMousePosition.x - diffMousePosition.y) / 2;
+      endInPixels.clamp(startInPixels.x + 50, canvasRect.width - 1);
+      widthInPixels = endInPixels.x - startInPixels.x;
+      heightInPixels = widthInPixels / this.operationOptions.ratio;
+      if (endInPixels.y - heightInPixels < 1) {
+        heightInPixels = this.operationOptions.end.y * canvasRect.height - 1;
+        widthInPixels = heightInPixels * this.operationOptions.ratio;
+      }
+      this.operationOptions.end.x = (startInPixels.x + widthInPixels) / canvasRect.width;
+      this.operationOptions.start.y = (endInPixels.y - heightInPixels) / canvasRect.height;
+    }
+    return this.resizeCanvasControls();
+  };
+
+
+  /*
+    Handles crop center touch dragging
+   */
+
+  UIControlsCrop.prototype.handleCenterTouchDragging = function() {
+    var canvasRect, centerRect, currentMousePosition, diffMousePosition, initialEnd, initialMousePosition, initialStart, max, min;
+    canvasRect = new Rect(0, 0, this.canvasControlsContainer.width(), this.canvasControlsContainer.height());
+    min = new Vector2(1, 1);
+    max = new Vector2(canvasRect.width - this.centerDiv.width() - 1, canvasRect.height - this.centerDiv.height() - 1);
+    initialMousePosition = new Vector2(this.Touch.touchStartX, this.Touch.touchStartY);
+    initialStart = new Vector2().copy(this.operationOptions.start);
+    initialEnd = new Vector2().copy(this.operationOptions.end);
+    centerRect = new Rect(0, 0, this.centerDiv.width(), this.centerDiv.height());
+    currentMousePosition = new Vector2(this.Touch.touchStartX + this.Touch.touchDX, this.Touch.touchStartY + this.Touch.touchDY);
+    diffMousePosition = new Vector2().copy(currentMousePosition).subtract(initialMousePosition);
+    this.operationOptions.start.copy(initialStart).multiplyWithRect(canvasRect).add(diffMousePosition).clamp(min, max).divideByRect(canvasRect);
+    this.operationOptions.end.copy(this.operationOptions.start).multiplyWithRect(canvasRect).addRect(centerRect).divideByRect(canvasRect);
+    return this.resizeCanvasControls();
   };
 
 
