@@ -18,15 +18,16 @@ class UIControlsBase extends EventEmitter
 
     @Touch= 
     	 
-    	  horizontal_sensitivity: 10
-    	  vertical_sensitivity: 10
+    	  horizontal_sensitivity: 50
+    	  vertical_sensitivity: 50
     	  touchDX: 0
     	  touchDY: 0
     	  touchStartX: 0
     	  touchStartY: 0
-    	 
+    	  
     	  bind: (elements...) ->
     	    for elem in elements
+    	      # console.log "Binding " + elem["id"]
     	      elem.addEventListener "touchstart", (event) =>
     	       @handleStart(event, elem)
     	      elem.addEventListener "touchmove", (event) =>
