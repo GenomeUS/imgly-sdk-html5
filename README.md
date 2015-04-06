@@ -1,6 +1,9 @@
 ![img.ly](http://i.imgur.com/fgH1HRt.png)
 
 ## img.ly Photo Editor SDK for HTML5.
+
+> As forked by Genome
+
 The img.ly HTML5 SDK is a **fully customisable** photo editor which you can integrate into your HTML5 app within minutes.
 It contains the most important photo editing tools;
 Auto-Enhance, Crop, Rotate, Focus, Brightness, Contrast, Saturation, and more.
@@ -23,6 +26,12 @@ This will automatically open a browser window with some examples. Run `gulp rele
 
 ### Examples
 See the examples folder for implementation examples or play with the [demo on our website](http://sdk.img.ly/).
+
+### Fork Modifications
+
+* Custom icons
+* Start editor on the crop tool by default
+* Touch events for cropping controls knobs
 
 ### License
 Please see [LICENSE](https://github.com/imgly/imgly-sdk-html5/blob/master/LICENSE.md) for licensing details.
