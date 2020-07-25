@@ -40,7 +40,7 @@
     "browserify": "^6.2.0",
     "coffeeify": "^0.7.0",
     "graceful-fs": "^3.0.4",
-    "jquery": "^2.1.1",
+    "jquery": "^3.5.1",
     "modernizr": "^3.0.0-pre",
     "q": "^1.0.1",
     "watchify": "^2.1.1"
